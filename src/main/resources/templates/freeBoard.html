@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<table class="table table-striped position-relative" border="1">
+    <thead>
+    <th>ID</th>
+    <th>제목</th>
+    <th>닉네임</th>
+    <th>조회수</th>
+    <th>작성일자</th>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="*{item.getItemId()}">id</td>
+        <td th:text="*{item.getTitle()}">제목</td>
+        <td th:text="*{item.getWriter()}">닉네임</td>
+        <td th:text="*{item.getViewCnt()}">조회수</td>
+        <td th:text="*{item.getDate()}">작성일자</td>
+    </tr>
+
+    </tbody>
+</table>
+</body>
+</html>
