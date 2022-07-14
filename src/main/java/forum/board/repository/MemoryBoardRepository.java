@@ -30,16 +30,16 @@ public class MemoryBoardRepository implements boardRepository{
         return itemRepository.get(itemId);
     }
 
-    @Override
+   @Override
     public List<Item> findByWriter(Long memberId) {
         List<Item> items = new ArrayList<>();
-        Member findMember = MemoryMemberRepository.findById(memberId);
+        /*Member findMember = MemoryMemberRepository.findById(memberId);
         for (Item item : itemRepository.values()) {
             if(findMember.getMemberName().equals(item.getWriter()))
             {
                 items.add(item);
             }
-        }
+        }*/
         return items;
     }
 

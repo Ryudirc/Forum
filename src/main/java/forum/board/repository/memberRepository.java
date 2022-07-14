@@ -3,13 +3,14 @@ package forum.board.repository;
 import forum.board.domain.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface memberRepository {
 
     void save(Member member);
-    Member findById(Long memberId);
+    Optional<Member> findById(Long memberId);
     void update(Long memberId, Member updateMember);
-    Member delete(Long memberId);
+    void delete(Long memberId);
     List<Member> findAll();
 
 

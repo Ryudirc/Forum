@@ -1,36 +1,132 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Main</title>
-    <!-- 합쳐지고 최소화된 최신 CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>BoardGameShop</title>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" th:href="@{/freeboard/css/styles.css}"/>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
 
-    <!-- 부가적인 테마 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+        #body-wrapper {
+            min-height: 90%;
+            position: relative;
+        }
 
-    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        #body-content {
+            margin-top: 100px;
+            padding-bottom: 24px;
+        }
+
+        footer {
+            width: 100%;
+            height: 24px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
 </head>
 <body>
-<table class="table table-striped position-relative" border="1">
-    <thead>
-    <th>ID</th>
-    <th>제목</th>
-    <th>닉네임</th>
-    <th>조회수</th>
-    <th>작성일자</th>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${items}">
-        <td th:text="*{item.getItemId()}">id</td>
-        <td th:text="*{item.getTitle()}">제목</td>
-        <td th:text="*{item.getWriter()}">닉네임</td>
-        <td th:text="*{item.getViewCnt()}">조회수</td>
-        <td th:text="*{item.getDate()}">작성일자</td>
-    </tr>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!">BoardGameMall</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">FreeBoard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">모든제품보기</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">인기있는제품</a></li>
+                        <li><a class="dropdown-item" href="#!">신상품</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button>
 
-    </tbody>
-</table>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">자유게시판</h1>
+            <p class="lead fw-normal text-white-50 mb-0">보드게임과 관련된 이야기들을 나눠보세요!</p>
+        </div>
+    </div>
+</header>
+<div id="body-wrapper">
+    <div id="body-content">
+        <!-- Section-->
+        <section>
+            <div class="container">
+                <table class="table table-striped table-bordered table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>조회수</th>
+                        <th>추천수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td><a th:href="@{/forum/freeBoard/viewForm/{itemId}(itemId=${item.itemId})}" th:text="*{item.getItemId()}">번호</a></td>
+                        <td><a th:href="@{/forum/freeBoard/viewForm/{itemId}(itemId=${item.itemId})}" th:text="*{item.getTitle()}">제목</a></td>
+                        <td th:text="*{item.getWriter()}">작성자</td> <!--닉네임을 누르면 회원정보 보기로 넘어가게끔? 할수있나? -->
+                        <td th:text="*{item.getViewCnt}">조회수</td>
+                        <td th:text="*{item.getGoodCnt}">추천수</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <hr>
+                <div class="float-right">
+                    <button th:onclick="|location.href='@{/forum/freeBoard/addForm}'|" type="button" class="btn btn-dark">글쓰기</button>
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script th:src="@{/freeboad/js/scripts.js}"></script>
+</div>
 </body>
 </html>

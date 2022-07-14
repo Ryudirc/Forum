@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 매핑용 클래스
@@ -14,10 +15,10 @@ public class Item {
     private Long itemId;
     private String title;
     private String content;
+    private UploadFile attachFile; //첨부파일
+    private List<UploadFile> imageFiles; //이미지 파일들
     private String writer;
-    private Date date;
-    private Reply reply;
-    private int viewCnt; //조회수
-    private int goodCnt; //추천수
+    private int viewCnt;
+    private int goodCnt;
 
 }

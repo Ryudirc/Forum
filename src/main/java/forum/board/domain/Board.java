@@ -11,7 +11,6 @@ public class Board {
     private String title;
     private String content;
     private Member member;
-    private Reply reply;
     private int viewCnt; //조회수
     private int goodCnt; //추천수
 

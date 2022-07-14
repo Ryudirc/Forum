@@ -1,10 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+  	<title>Forum SignUp</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-</body>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" th:href="@{/signup/css/style.css}">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">회원가입</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-6 col-xl-5">
+					<div class="login-wrap p-4 p-md-5">
+		      	<h3 class="mb-4">안녕하세요! <span>아래의 칸에 정보를 입력하여 회원가입을 완료하여주세요.</span></h3>
+		      	<span> </span>
+						<form th:action method="post" class="signup-form">
+		      		<div class="form-group mb-4">
+		      			<label class="label" for="memberAcct">아이디</label>
+		      			<input type="text" class="form-control" placeholder="blueFish" id="memberAcct" name="memberAcct">
+		      		</div>
+	            <div class="form-group mb-4">
+	            	<label class="label" for="memberPw">비밀번호</label>
+	              <input type="password" class="form-control" placeholder="sample1234" id="memberPw" name="memberPw">
+	            </div>
+	            <div class="form-group mb-4">
+	            	<label class="label" for="memberPwConfirm">비밀번호 확인</label>
+	              <input type="password" class="form-control" placeholder="sample1234" id="memberPwConfirm" name="memberPwConfirm">
+	            </div>
+				<div class="form-group mb-4">
+				<label class="label" for="memberName">닉네임</label>
+				<input type="text" class="form-control" placeholder="RedTomato1210" id="memberName" name="memberName">
+				</div>
+				<div class="form-group mb-4">
+				<label class="label" for="memberEmail">이메일 주소</label>
+				<input type="text" class="form-control" placeholder="gildong@gmail.com" id="memberEmail" name="memberEmail">
+				</div>
+	            <div class="form-group">
+	            	<button type="submit" class="btn btn-primary rounded submit p-3">회원가입 완료</button>
+	            </div>
+	          </form>
+	          <div class="w-100 social-wrap">
+	          	<p>
+	          		<span>또는</span>
+	          		<span>SNS로 로그인하기</span>
+	          	</p>
+	          	<p class="social-media d-flex justify-content-center">
+								<a href="#" class="social-icon facebook d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+								<a href="#" class="social-icon twitter d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+							</p>
+							<p class="mt-4">이미 회원이신가요?<a th:href="@{/forum/login/}">로그인 하러가기</a></p>
+	          </div>
+	        </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script th:src="@{/signup/js/jquery.min.js}"></script>
+  <script th:src="@{/signup/js/popper.js}"></script>
+  <script th:src="@{/signup/js/bootstrap.min.js}"></script>
+  <script th:src="@{/signup/js/main.js}"></script>
+
+	</body>
 </html>
+

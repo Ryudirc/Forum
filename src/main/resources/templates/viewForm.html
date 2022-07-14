@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>viewForm</title>
+</head>
+<body>
+<div>
+    제목 : <span th:text="${item.title}">기본제목명</span><br>
+    내용<br>
+    <div>
+        <span th:utext="${item.content}">기본 내용</span>
+        <img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
+    </div>
+
+<button th:onclick="|location.href='@{/forum/freeBoard/}'|" type="button">목록으로</button>
+<button th:onclick="|location.href='@{/forum/freeBoard/viewForm/delete/{itemId}(itemId=${item.itemId})}'|">게시글 삭제</button>
+</div>
+</body>
+</html>
