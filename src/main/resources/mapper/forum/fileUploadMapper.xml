@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="forum.board.repository.mybatisMapper.uploadFileMapper">
+
+    <insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
+        insert into uploadfile (item_id,origin_name,store_name) values (#{itemId},#{uploadFileName},#{storeFileName})
+    </insert>
+
+    <insert id="saveFiles" useGeneratedKeys="true" keyProperty="fileId">
+        insert into uploadfile (item_id,origin_name,store_name) values <foreach collection="list" item="uploadFiles" separator=",">
+                                                (#{uploadFiles.itemId},#{uploadFiles.uploadFileName},#{uploadFiles.storeFileName})
+                                                                   </foreach>
+    </insert>
+
+</mapper>

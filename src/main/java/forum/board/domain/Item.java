@@ -12,13 +12,14 @@ import java.util.List;
 
 @Getter @Setter
 public class Item {
+    private Long num;
     private Long itemId;
     private String title;
     private String content;
-    private UploadFile attachFile; //첨부파일
-    private List<UploadFile> imageFiles; //이미지 파일들
     private String writer;
     private int viewCnt;
     private int goodCnt;
+
+
 
 }

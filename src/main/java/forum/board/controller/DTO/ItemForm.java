@@ -13,12 +13,14 @@ import java.util.List;
 @Component
 public class ItemForm {
 
-    private Long itemId;
+
     private String title;
     private String content;
+    private String writer;
+    private int view_cnt; // 직접설정해주는 값이 아닌, 서버로직에 의해 증감되어 뷰로 전송될 값
+    private int good_cnt; // 유저가 추천 버튼울 눌렀을때 서버로직에 의해 증감되어 뷰로 전송됨.
     private MultipartFile attachFile; //첨부파일
     private List<MultipartFile> attachFiles; //이미지 파일들
-    private String writer;
-    private Date date;
+
 
 }

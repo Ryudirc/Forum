@@ -21,17 +21,21 @@ public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
 
+    @Value("${file.dire}") //summernote 로 부터 불러들인 이미지가 저장될 경로
+    private String imageFileDir;
+
+
     public String getFullPath(String fileName)
     {
         return fileDir + fileName;
     }
 
-    public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+    public List<UploadFile> storeFiles(Long itemId,List<MultipartFile> multipartFiles) throws IOException {
         List<UploadFile> storeFiles = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if(!multipartFile.isEmpty())
             {
-                storeFiles.add(storeFile(multipartFile));
+                storeFiles.add(storeFile(itemId,multipartFile));
             }
         }
         return storeFiles;
@@ -39,7 +43,7 @@ public class FileStore {
 
 
 
-    public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
+    public UploadFile storeFile(Long itemId, MultipartFile multipartFile) throws IOException {
         if(multipartFile.isEmpty())
         {
             return null;
@@ -49,7 +53,7 @@ public class FileStore {
         String storeFileName = createStoreFileName(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
 
-        return new UploadFile(originalFilename,storeFileName);
+        return new UploadFile(itemId,originalFilename,storeFileName);
     }
 
     private String createStoreFileName(String originalFilename) {

@@ -1,4 +1,4 @@
-package forum.board.repository.mybatis;
+package forum.board.repository.mybatisMapper;
 
 import forum.board.domain.Member;
 import org.apache.ibatis.annotations.Mapper;

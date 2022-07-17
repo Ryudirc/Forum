@@ -106,11 +106,11 @@
                 <hr>
                 <form th:action="@{/forum/freeBoard/search}" method="get">
                     <select id="type" name="type">
-                        <option value="1">제목</option>
-                        <option value="2">닉네임</option>
-                        <option value="3">제목 + 내용</option>
+                        <option value="1" th:selected="${type} == 1">제목</option>
+                        <option value="2" th:selected="${type} == 2">닉네임</option>
+                        <option value="3" th:selected="${type} == 3">제목 + 내용</option>
                     </select>
-                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">
+                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요." th:value="${keyword}">
                     <button type="submit">검색</button>
                 </form>
                 <div class="float-right">

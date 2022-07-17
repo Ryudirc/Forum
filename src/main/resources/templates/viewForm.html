@@ -10,11 +10,12 @@
     내용<br>
     <div>
         <span th:utext="${item.content}">기본 내용</span>
-        <img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
+        <!--<img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/> -->
     </div>
 
 <button th:onclick="|location.href='@{/forum/freeBoard/}'|" type="button">목록으로</button>
 <button th:onclick="|location.href='@{/forum/freeBoard/viewForm/delete/{itemId}(itemId=${item.itemId})}'|">게시글 삭제</button>
+<button th:onclick="|location.href='@{/forum/freeBoard/editForm/{itemId}(itemId=${item.itemId})}'|">게시글 수정</button>
 </div>
 </body>
 </html>

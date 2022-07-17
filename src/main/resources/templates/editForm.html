@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>editForm</title>
+    <!-- include libraries(jQuery, bootstrap) -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+    <!-- include summernote css/js-->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 </head>
 <body>
+<h1>글 수정하기</h1>
+<div>
+    <form  th:action method="post">
+        <label for="title">제목입력</label>
+        <input type="text" id="title" th:field="${item.title}" placeholder="제목을 입력해주세요.">
+        <textarea id="summernote" th:field="${item.content}"></textarea>
+      <!--  <label for="attachFile">첨부파일 등록</label>
+        <input type="file" id="attachFile" name="attachFile">
+        <label for="attachFiles">다중첨부파일 등록</label>
+        <input type="file" id="attachFiles" multiple="multiple" name="attachFiles"> -->
+        <button type="submit">수정완료</button>
+    </form>
+</div>
+<button type="button" th:onclick="|location.href='@{/forum/freeBoard}'|">목록으로</button>
+<script>
+    // 메인화면 페이지 로드 함수
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            placeholder: '내용을 작성하세요',
+            height: 400,
+            maxHeight: 400,
+            focus : true,
+            callback : {
+                onImageUpload : function (files, editor, welEditable) {
+                    for(var i = 0;i<files.length; i++){
+                        sendFile(files[i], this);
+                    }
+                }
+            }
 
+        });
+    });
+
+    // 이미지 파일 업로드 함수(용량 효율성을 위해 비동기 전송방식(ajax)
+    var form_data = new FormData();
+    form_data.append('multipartFile',multipartFile);
+    $.ajax({
+        data : form_data,
+        type : "POST",
+        url : '/forum/freeBoard/addForm',
+        cache : false,
+        contentType : false,
+        enctype : 'multipart/form-data',
+        processData : false,
+        success : function (url) {
+            $(el).summernote('insertImage',url,function ($image) {
+                $image.css('width',"25%");
+            });
+        }
+    })
+</script>
 </body>
 </html>

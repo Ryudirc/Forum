@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="forum.board.repository.mybatis.ItemMapper">
+<mapper namespace="forum.board.repository.mybatisMapper.ItemMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="itemId">
+        insert into item(title,content,writer) values(#{title},#{content},#{writer})
+    </insert>
+
+    <select id="findById" resultType="Item">
+        select * from item where item_id=#{id}
+    </select>
+
+    <select id="findAll" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A, (SELECT @ROWNUM:=0) as B) A order by num DESC;
+    </select>
+
+    <select id="findByWriter" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.writer like concat('%',#{name},'%')) A order by num DESC;
+    </select>
+
+    <select id="findByTitle" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{name},'%')) A order by num DESC;
+    </select>
+
+    <select id="findByKeyword" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{keyword},'%') or A.content like concat('%',#{keyword},'%')) A order by num DESC;
+    </select>
+
+    <update id="update">
+        update item set title=#{updateItem.title},content=#{updateItem.content} where item_id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from item where item_id=#{id}
+    </delete>
+
 
 
 

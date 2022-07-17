@@ -1,7 +1,8 @@
 package forum.board.repository;
 
 import forum.board.domain.Member;
-import forum.board.repository.mybatis.memberMapper;
+import forum.board.repository.RepositoryInterface.memberRepository;
+import forum.board.repository.mybatisMapper.memberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class MybatisMemberRepository implements memberRepository{
+public class MybatisMemberRepository implements memberRepository {
 
    //private final Map<Long,Member> memberRepository = new HashMap<>();
   //private Long sequence = 0L;

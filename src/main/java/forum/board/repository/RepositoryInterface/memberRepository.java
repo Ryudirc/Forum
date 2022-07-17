@@ -1,4 +1,4 @@
-package forum.board.repository;
+package forum.board.repository.RepositoryInterface;
 
 import forum.board.domain.Member;
 
