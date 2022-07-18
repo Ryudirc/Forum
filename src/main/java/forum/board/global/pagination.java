@@ -9,4 +9,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class pagination {
+    // 한 페이지에 보여지는 게시글 개수
+    private int pageSize = 15;
+
+    // 페이징 버튼 당 보여줄 게시글 개수
+    private int blockSize;
+
+
+
 }

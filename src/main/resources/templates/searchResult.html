@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>BoardGameShop</title>
+    <title>BoardGameForum</title>
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" th:href="@{/freeboard/css/styles.css}"/>
+    <!--search box css  -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/freeboard/searchbox/css/main.css}" />
     <style>
         html, body {
             margin: 0;
@@ -34,6 +37,16 @@
             bottom: 0;
             left: 0;
         }
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: orange;
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
@@ -45,7 +58,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">FreeBoard</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">FreeBoard</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
@@ -82,7 +95,7 @@
         <!-- Section-->
         <section>
             <div class="container">
-                <table class="table table-striped table-bordered table-hover text-center">
+                <table class="table table-striped  table-hover text-center">
                     <thead>
                     <tr>
                         <th>번호</th>
@@ -100,19 +113,9 @@
                         <td th:text="*{item.getViewCnt}">조회수</td>
                         <td th:text="*{item.getGoodCnt}">추천수</td>
                     </tr>
-
                     </tbody>
                 </table>
                 <hr>
-                <form th:action="@{/forum/freeBoard/search}" method="get">
-                    <select id="type" name="type">
-                        <option value="1" th:selected="${type} == 1">제목</option>
-                        <option value="2" th:selected="${type} == 2">닉네임</option>
-                        <option value="3" th:selected="${type} == 3">제목 + 내용</option>
-                    </select>
-                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요." th:value="${keyword}">
-                    <button type="submit">검색</button>
-                </form>
                 <div class="float-right">
                     <button th:onclick="|location.href='@{/forum/freeBoard/addForm}'|" type="button" class="btn btn-dark">글쓰기</button>
                 </div>
@@ -125,6 +128,36 @@
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                 </nav>
+                <div class="s003">
+                    <form th:action="@{/forum/freeBoard/search}" method="get">
+                        <div class="inner-form">
+                            <div class="input-field first-wrap">
+                                <div class="input-select">
+                                    <select id="type" data-trigger="" name="type">
+                                        <option value="1" th:selected="${type} == 1">제목</option>
+                                        <option value="2" th:selected="${type} == 2">닉네임</option>
+                                        <option value="3" th:selected="${type} == 3">제목 + 내용</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-field second-wrap">
+                                <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요." th:value="${keyword}"/>
+                            </div>
+                            <div class="input-field third-wrap">
+                                <button class="btn-search" type="submit">검색</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <script th:src="@{/freeboard/searchbox/js/extention/choices.js}"></script>
+                <script>
+                    const choices = new Choices('[data-trigger]',
+                        {
+                            searchEnabled: false,
+                            itemSelectText: '',
+                        });
+
+                </script>
             </div>
         </section>
     </div>

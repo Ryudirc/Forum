@@ -18,6 +18,8 @@ public interface ItemMapper {
     void update(@Param("id") Long itemId, @Param("updateItem") Item updateItem); //itemId 로 게시글을 찾아서 updateItem 으로 업데이트
     void delete(Long itemId); // 게시글 삭제
 
+    void updateViewCount(Long itemId); // 게시글 조회 시 조회수 1씩 증가
+
     // 좋아요(추천)기능 업데이트 메서드
     //void updateLike();
 

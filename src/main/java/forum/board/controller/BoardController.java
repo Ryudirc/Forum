@@ -62,6 +62,7 @@ public class BoardController {
     public String viewForm(@PathVariable Long itemId, Model model)
     {
         Item item = itemService.findById(itemId);
+        itemService.updateViewCount(item.getItemId());
         model.addAttribute("item",item);
 
         return "viewForm";

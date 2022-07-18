@@ -103,6 +103,11 @@ public class ItemService {
         return itemRepository.findByKeyword(keyword);
     }
 
+    public void updateViewCount(Long itemId)
+    {
+        itemRepository.updateViewCount(itemId);
+    }
+
     /*public JSONObject summernoteImageProcess(MultipartFile multipartFile)
     {
         // 컨트롤러로부터 multipartFile 을 주입받아서 FileStore 클래스의 메서드를 사용하여 summernote API 의 이미지를 처리

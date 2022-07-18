@@ -53,4 +53,11 @@ public class MybatisItemRepository implements ItemRepository {
     public void delete(Long itemId) {
         itemMapper.delete(itemId);
     }
+
+    @Override
+    public void updateViewCount(Long itemId) {
+        itemMapper.updateViewCount(itemId);
+    }
+
+
 }

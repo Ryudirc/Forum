@@ -35,6 +35,10 @@
         delete from item where item_id=#{id}
     </delete>
 
+    <update id="updateViewCount">
+        update item set view_cnt = view_cnt + 1 where item_id=#{id}
+    </update>
+
 
 
 
