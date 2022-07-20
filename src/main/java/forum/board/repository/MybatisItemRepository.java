@@ -29,19 +29,16 @@ public class MybatisItemRepository implements ItemRepository {
         return itemMapper.findAll();
     }
 
-    @Override
-    public List<Item> findByWriter(String name) {
-         return itemMapper.findByWriter(name);
+    public List<Item> findByWriter(String name, int start, int pageSize) {
+         return itemMapper.findByWriter(name,start,pageSize);
     }
 
-    @Override
-    public List<Item> findByTitle(String title) {
-        return itemMapper.findByTitle(title);
+    public List<Item> findByTitle(String title, int start, int pageSize) {
+        return itemMapper.findByTitle(title,start,pageSize);
     }
 
-    @Override
-    public List<Item> findByKeyword(String keyword) {
-        return itemMapper.findByKeyword(keyword);
+    public List<Item> findByKeyword(String keyword, int start, int pageSize) {
+        return itemMapper.findByKeyword(keyword,start,pageSize);
     }
 
     @Override

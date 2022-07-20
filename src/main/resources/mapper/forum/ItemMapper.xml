@@ -16,15 +16,15 @@
     </select>
 
     <select id="findByWriter" resultType="Item">
-        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.writer like concat('%',#{name},'%')) A order by num DESC;
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.writer like concat('%',#{name},'%')) A order by num DESC LIMIT #{startRow},#{endRow};
     </select>
 
     <select id="findByTitle" resultType="Item">
-        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{name},'%')) A order by num DESC;
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{name},'%')) A order by num DESC LIMIT #{startRow},#{endRow};
     </select>
 
     <select id="findByKeyword" resultType="Item">
-        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{keyword},'%') or A.content like concat('%',#{keyword},'%')) A order by num DESC;
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{keyword},'%') or A.content like concat('%',#{keyword},'%')) A order by num DESC LIMIT #{startRow},#{endRow};
     </select>
 
     <update id="update">

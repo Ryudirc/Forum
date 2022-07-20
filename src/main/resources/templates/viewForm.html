@@ -5,59 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>ViewForm</title>
+    <title>BoardGameShop</title>
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" th:href="@{/freeboard/css/styles.css}"/>
-    <!--search box css  -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{/freeboard/searchbox/css/main.css}" />
-    <!-- include libraries(jQuery, bootstrap) -->
-    <link rel="stylesheet" th:href="@{/freeboard/css/bootstrap.css}"/>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+    <!-- CSS only -->
 
-    <!-- include summernote css/js-->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
+       p {
+           font-family: "ELAND 초이스 Medium";
+       }
+       dt {
+           float: left;
+       }
 
-        #body-wrapper {
-            min-height: 90%;
-            position: relative;
-        }
+       article {
+           flex: 1;
+       }
+       .btn-pos {
+           width: 10px;
+           height: 50px;
+           margin: auto;
+           float: left;
+       }
+       html,body {
+           margin: 0;
+           padding: 0;
+           height: 100%;
+       }
+       #body-wrapper {
+           min-height: 100%;
+           position: relative;
+       }
 
-        #body-content {
-            margin-top: 100px;
-            padding-bottom: 24px;
-        }
+       #body-content {
+           margin-top: 100px;
+           padding-bottom: 24px; /* footer의 높이 */
+       }
 
-        footer {
-            width: 100%;
-            height: 24px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-        .no-border {
-            border: 0;
-            box-shadow: none;
-        }
-        .title {
-            padding: 22px 14px;
-            font-size: 20px;
-        }
-        .attach-file {
-            padding: 8px 13px;
-            font-size: 10px;
-        }
+       footer {
+           width: 100%;
+           height: 24px; /* footer의 높이 */
+           position: absolute;
+           bottom: 0;
+           left: 0;
+       }
+
     </style>
+    <script src="https://kit.fontawesome.com/f16c739b14.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <!-- Navigation-->
@@ -67,15 +63,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">FreeBoard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">자유게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">모든제품보기</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">인기있는제품</a></li>
+                        <li><a class="dropdown-item" href="#!">인기있는 제품</a></li>
                         <li><a class="dropdown-item" href="#!">신상품</a></li>
                     </ul>
                 </li>
@@ -94,26 +90,41 @@
 </header>
 <div id="body-wrapper">
     <div id="body-content">
-        <div style="border: 1px solid #565656;">
-        <h1 th:text="${item.title}"></h1><br>
-        <hr>
-        <p th:utext="${item.content}"></p>
+<!-- Section-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1 th:utext="${item.title}">title</h1>
+                <hr>
+                <dl>
+                    <dt th:text="${item.writer}"> 작성자 </dt>
+                    <dt>&nbsp;||&nbsp;</dt>
+                    <dt><i class="fa-solid fa-comment">21</i></dt>
+                    <dt>&nbsp;||&nbsp;</dt>
+                    <dt><i class="fa-solid fa-eye" th:text="${item.getViewCnt()}"></i></dt>
+                </dl><br>
+                <hr>
+                <p th:utext="${item.content}"></p>
+
+            </div>
         </div>
-        <hr>
-        <button th:onclick="|location.href='@{/forum/freeBoard}'|">목록으로</button>
-        <button th:onclick="|location.href='@{/forum/freeBoard/viewForm/delete/{itemId}(itemId=${item.itemId})}'|">삭제하기</button>
-        <button th:onclick="|location.href='@{/forum/freeBoard/editForm/{itemId}(itemId=${item.itemId})}'|">수정하기</button>
-
     </div>
-
-    <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script th:src="@{/freeboad/js/scripts.js}"></script>
+    <div class="btn-pos">
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/forum/freeBoard/editForm/{itemId}(itemId=${item.itemId})}'|">게시글 수정</button>
+    <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/forum/freeBoard/viewForm/delete/{itemId}(itemId=${item.itemId})}'|">게시글 삭제</button>
+    <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/forum/freeBoard}'|">목록으로</button>
+    </div>
+</article>
+    </div>
+<!-- Footer-->
+<footer id="footer" class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
 </div>
 </body>
 </html>

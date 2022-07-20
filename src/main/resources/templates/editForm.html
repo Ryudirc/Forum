@@ -113,7 +113,7 @@
                     <hr>
                     <button type="submit" class="btn btn-secondary">작성완료</button>
                 </form>
-                <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/forum/freeBoard}'|">작성취소</button>
+                <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/forum/freeBoard/viewForm/{itemId}(itemId=${item.itemId})}'|">작성취소</button>
                 <script>
 
                     // summernote 노출 함수

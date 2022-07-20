@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="forum.board.repository.mybatisMapper.paginationMapper">
+
+    <select id="getTotalRow" resultType="Item">
+        select * from item;
+    </select>
+
+    <select id="getPageSize" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A, (SELECT @ROWNUM:=0) as B) A order by num DESC LIMIT #{startRow},#{endRow}
+    </select>
+
+
+
+</mapper>

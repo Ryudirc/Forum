@@ -2,7 +2,9 @@ package forum.board.controller;
 
 import forum.board.controller.DTO.ItemForm;
 import forum.board.domain.Item;
+import forum.board.global.pagination;
 import forum.board.service.ItemService;
+import forum.board.service.paginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,14 +28,17 @@ import java.util.List;
 public class BoardController {
 
     private final ItemService itemService;
+    private final paginationService paginationService;
 
-    @GetMapping
-    public String getFreeBoard(Model model)
+    @GetMapping()
+    public String getFreeBoard(Model model,@RequestParam(value = "page",defaultValue = "1")int page)
     {
-        List<Item> getItemList = itemService.getFreeBoard();
-        model.addAttribute("items",getItemList);
+        pagination pagination = paginationService.getPagination(page);
+        model.addAttribute("pagination",pagination);
+
         return "freeBoard";
     }
+
 
     @GetMapping("addForm")
     public String addItem(@ModelAttribute ItemForm form)
@@ -96,12 +101,15 @@ public class BoardController {
     }
 
     @GetMapping("search")
-    public String searchItem(int type,String keyword,Model model)
+    public String searchItem(@RequestParam("type") int type,@RequestParam("keyword") String keyword,@RequestParam(value = "page",defaultValue = "1")int page, Model model)
     {
         model.addAttribute("type",type);
         model.addAttribute("keyword",keyword);
-        List<Item> searchResult = itemService.searchProcess(type, keyword);
-        model.addAttribute("items",searchResult);
+        model.addAttribute("page",page);
+        pagination pagination = paginationService.searchedPagination(type, keyword, page);
+        model.addAttribute("pagination",pagination);
+        //List<Item> searchResult = itemService.searchProcess(type, keyword);
+        //model.addAttribute("items",searchResult);
 
         return "searchResult";
     }

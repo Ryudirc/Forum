@@ -73,34 +73,34 @@ public class ItemService {
     }
 
 
-    public List<Item> searchProcess(int type, String keyword)
+    public List<Item> searchProcess(int type, String keyword,int start,int pageSize)
     {
         switch (type) {
             case 1:
-               return searchByTitle(keyword);
+               return searchByTitle(keyword,start,pageSize);
             case 2:
-                return searchByWriter(keyword);
+                return searchByWriter(keyword,start,pageSize);
             case 3:
-                return searchByKeyword(keyword);
+                return searchByKeyword(keyword,start,pageSize);
         }
         return null;
     }
 
 
 
-    public List<Item> searchByTitle(String keyword)
+    public List<Item> searchByTitle(String keyword,int start,int pageSize)
     {
-        return itemRepository.findByTitle(keyword);
+        return itemRepository.findByTitle(keyword,start,pageSize);
     }
 
-    public List<Item> searchByWriter(String keyword)
+    public List<Item> searchByWriter(String keyword,int start,int pageSize)
     {
-        return itemRepository.findByWriter(keyword);
+        return itemRepository.findByWriter(keyword,start,pageSize);
     }
 
-    public List<Item> searchByKeyword(String keyword)
+    public List<Item> searchByKeyword(String keyword,int start,int pageSize)
     {
-        return itemRepository.findByKeyword(keyword);
+        return itemRepository.findByKeyword(keyword,start,pageSize);
     }
 
     public void updateViewCount(Long itemId)
