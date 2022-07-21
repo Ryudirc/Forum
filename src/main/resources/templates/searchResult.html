@@ -121,13 +121,13 @@
                 </div>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination" >
-                        <li class="page-item"><a class="page-link" th:href="@{freeBoard(page=${pagination.getPrevBlock})}">Previous</a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/forum/freeBoard/search(type=${type},keyword=${keyword},page=${pagination.getPrevBlock})}">Previous</a></li>
                         <th:block th:with="start = ${pagination.start}, end = ${pagination.end}">
                             <li class="page-item" th:each="pageBtn : ${#numbers.sequence(start,end)}">
-                                <a class="page-link" th:href="@{freeBoard(page=${pageBtn})}" th:text="${pageBtn}">1</a>
+                                <a class="page-link" th:href="@{/forum/freeBoard/search(type=${type},keyword=${keyword},page=${pageBtn})}" th:text="${pageBtn}">1</a>
                             </li>
                         </th:block>
-                        <li class="page-item"><a class="page-link" th:href="@{freeBoard(page=${pagination.nextBlock})}">Next</a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/forum/freeBoard/search(type=${type},keyword=${keyword},page=${pagination.nextBlock})}">Next</a></li>
                     </ul>
                 </nav>
                 <div class="s003">
@@ -149,7 +149,6 @@
                                 <button class="btn-search" type="submit">검색</button>
                             </div>
                         </div>
-                        <input type="hidden" name="page" value="1">
                     </form>
                 </div>
                 <script th:src="@{/freeboard/searchbox/js/extention/choices.js}"></script>
