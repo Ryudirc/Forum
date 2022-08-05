@@ -102,12 +102,9 @@
                 <hr>
                     <textarea id="summernote" name="content"></textarea>
                 <hr>
-                 <div class="mb-3">
-                        <label for="attachFile" class="form-label">첨부파일 등록</label>
-                        <input class="form-control attach-file" type="file" id="attachFile" name="attachFile">
-                    </div>
+
                     <div class="mb-3">
-                        <label for="attachFiles" class="form-label">다중첨부파일 등록</label>
+                        <label for="attachFiles" class="form-label">첨부파일 등록</label>
                         <input class="form-control attach-file" type="file" id="attachFiles" multiple="multiple" name="attachFiles">
                     </div>
                 <hr>
@@ -115,42 +112,33 @@
                 </form>
                 <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/forum/freeBoard}'|">작성취소</button>
                 <script>
-
-                    // summernote 노출 함수
-                    $(document).ready(function () {
-                        $('#summernote').summernote({
+                    $(document).ready(function()
+                    {$('#summernote').summernote(
+                        {
                             placeholder: '내용을 작성하세요',
                             height: 600,
+                            minHeight: null,
                             maxHeight: 800,
-                            focus : true,
-                            callback : {
-                                onImageUpload : function (files, editor, welEditable) {
-                                    for(var i = 0;i<files.length; i++){
-                                        sendFile(files[i], this);
-                                    }
-                                }
+                            focus: true,
+                            callbacks: {onImageUpload: function(files) {
+                                    sendFile(files[0], this);
+
+                                }}});});
+
+                    function sendFile(file,el) {
+                        var form_data=new FormData();
+                        form_data.append('file',file);
+                        $.ajax({
+                            data: form_data,
+                            type: "POST",
+                            url:'/forum/freeBoard/uploadSummernoteImageFile',
+                            cache:false,
+                            contentType:false,
+                            processData: false,
+                            success : function(url) {
+                                $(el).summernote('insertImage', url);
                             }
-
-                        });
-                    });
-
-                    // 이미지 파일 업로드 함수(비동기 방식으로 처리하여 업로드한 이미지를 빠르게 볼수 있음)
-                    var form_data = new FormData();
-                    form_data.append('multipartFile',multipartFile);
-                    $.ajax({
-                        data : form_data,
-                        type : "POST",
-                        url : '/forum/freeBoard/addForm',
-                        cache : false,
-                        contentType : false,
-                        enctype : 'multipart/form-data',
-                        processData : false,
-                        success : function (url) {
-                            $(el).summernote('insertImage',url,function ($image) {
-                                $image.css('width',"25%");
-                            });
-                        }
-                    })
+                        });}
                 </script>
                 </div>
         </section>

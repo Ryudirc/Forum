@@ -1,5 +1,6 @@
 package forum.board.service;
 
+
 import forum.board.controller.DTO.ItemForm;
 import forum.board.domain.Item;
 import forum.board.domain.UploadFile;
@@ -8,7 +9,10 @@ import forum.board.repository.MybatisFileRepository;
 import forum.board.repository.MybatisItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +33,11 @@ public class ItemService {
 
     public Item findById(Long itemId)
     {
-        return itemRepository.findById(itemId);
+        Item item = itemRepository.findById(itemId);
+        List<UploadFile> uploadFileList = fileRepository.findFileById(itemId);
+        item.setAttachFiles(uploadFileList);
+
+        return item;
     }
 
     public void deleteItem(Long itemId)
@@ -51,17 +59,30 @@ public class ItemService {
 
         //multipartFile 로 넘어온 데이터 처리 로직 작성(만약 첨부파일이 넘어오지 않으면, DB에 데이터를 넣지 않음)
         Long itemId = item.getItemId();
-        if(!(form.getAttachFile().isEmpty())) {
-            UploadFile attachFile = fileStore.storeFile(itemId, form.getAttachFile());
-            fileRepository.saveFile(attachFile);
+        if(form.getAttachFiles().stream().count()>=1){
+            List<UploadFile> attachFiles = fileStore.storeFiles(itemId, form.getAttachFiles());
+            fileRepository.saveFiles(attachFiles);
+            item.setAttachFiles(attachFiles);
         }
-        if(form.getAttachFiles().stream().count()>1){
-            List<UploadFile> imageFiles = fileStore.storeFiles(itemId, form.getAttachFiles());
-            fileRepository.saveFiles(imageFiles);
-        }
-
         return item;
     }
+
+    public String getAttachFilePath(String attachFileName)
+    {
+         return fileStore.getFullPath(attachFileName);
+    }
+
+    public ResponseEntity summernoteImageProcess(MultipartFile multipartFile) throws IOException{
+
+        String imgPath = fileStore.storeImgFile(multipartFile);
+        return ResponseEntity.ok("/summernoteImage/"+imgPath);
+    }
+
+    public String getSummernoteImgPath(String filename)
+    {
+        return fileStore.getImgFullPath(filename);
+    }
+
 
     public void updateItem(Long itemId, ItemForm updateItem)
     {
@@ -103,14 +124,44 @@ public class ItemService {
         return itemRepository.findByKeyword(keyword,start,pageSize);
     }
 
+
+
+    public List<Item> searchAll(int type, String keyword)
+    {
+        switch (type) {
+            case 1:
+                return searchByTitleAll(keyword);
+            case 2:
+                return searchByWriterAll(keyword);
+            case 3:
+                return searchByKeywordAll(keyword);
+        }
+        return null;
+    }
+
+
+
+    public List<Item> searchByTitleAll(String keyword)
+    {
+        return itemRepository.findByTitleAll(keyword);
+    }
+
+    public List<Item> searchByWriterAll(String keyword)
+    {
+        return itemRepository.findByWriterAll(keyword);
+    }
+
+    public List<Item> searchByKeywordAll(String keyword)
+    {
+        return itemRepository.findByKeywordAll(keyword);
+    }
+
+
+
     public void updateViewCount(Long itemId)
     {
         itemRepository.updateViewCount(itemId);
     }
 
-    /*public JSONObject summernoteImageProcess(MultipartFile multipartFile)
-    {
-        // 컨트롤러로부터 multipartFile 을 주입받아서 FileStore 클래스의 메서드를 사용하여 summernote API 의 이미지를 처리
-    }*/
 
 }

@@ -25,4 +25,11 @@ public class MybatisFileRepository implements fileRepository {
     public void saveFiles(List<UploadFile> uploadFiles) {
         uploadFileMapper.saveFiles(uploadFiles);
     }
+
+    @Override
+    public List<UploadFile> findFileById(Long itemId) {
+         return uploadFileMapper.findFileById(itemId);
+    }
+
+
 }

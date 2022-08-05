@@ -17,6 +17,7 @@ public class Item {
     private String title;
     private String content;
     private String writer;
+    private List<UploadFile> attachFiles;
     private int viewCnt;
     private int goodCnt;
 

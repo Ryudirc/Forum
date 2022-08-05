@@ -5,7 +5,6 @@ import forum.board.domain.UploadFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -25,10 +24,18 @@ public class FileStore {
     private String imageFileDir;
 
 
+
     public String getFullPath(String fileName)
     {
         return fileDir + fileName;
     }
+
+    public String getImgFullPath(String imgFileName)
+    {
+        return imageFileDir + imgFileName;
+    }
+
+
 
     public List<UploadFile> storeFiles(Long itemId,List<MultipartFile> multipartFiles) throws IOException {
         List<UploadFile> storeFiles = new ArrayList<>();
@@ -54,6 +61,19 @@ public class FileStore {
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
 
         return new UploadFile(itemId,originalFilename,storeFileName);
+    }
+
+
+    public String storeImgFile(MultipartFile multipartFile) throws IOException {
+        if(multipartFile.isEmpty())
+        {
+            return null;
+        }
+        String originalImgName = multipartFile.getOriginalFilename();
+        String storeImgName = createStoreFileName(originalImgName);
+        multipartFile.transferTo(new File(getImgFullPath(storeImgName)));
+
+        return storeImgName;
     }
 
     private String createStoreFileName(String originalFilename) {

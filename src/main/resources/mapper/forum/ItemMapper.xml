@@ -39,6 +39,19 @@
         update item set view_cnt = view_cnt + 1 where item_id=#{id}
     </update>
 
+    <!-- 검색을통한 조회결과를 15개 단위로 나누지않고 모두 가져오기 위한 쿼리 -->
+    <select id="findByWriterAll" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.writer like concat('%',#{name},'%')) A order by num DESC;
+    </select>
+
+    <select id="findByTitleAll" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{name},'%')) A order by num DESC;
+    </select>
+
+    <select id="findByKeywordAll" resultType="Item">
+        SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS num,A.* FROM item as A,(SELECT @ROWNUM:=0) as B where A.title like concat('%',#{keyword},'%') or A.content like concat('%',#{keyword},'%')) A order by num DESC;
+    </select>
+
 
 
 

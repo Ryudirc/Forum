@@ -12,6 +12,7 @@ public interface uploadFileMapper {
 
     void saveFiles(List<UploadFile> uploadFiles); // 여러개 파일 저장
 
+    List<UploadFile> findFileById(Long itemId); // 파일 찾아오기
 
 
 }

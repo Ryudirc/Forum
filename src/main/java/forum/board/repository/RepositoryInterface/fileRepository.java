@@ -10,4 +10,6 @@ public interface fileRepository {
 
     void saveFiles(List<UploadFile> uploadFiles); // 여러개 파일 저장
 
+    List<UploadFile> findFileById(Long itemId);
+
 }

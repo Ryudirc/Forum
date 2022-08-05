@@ -18,15 +18,14 @@ public class paginationService {
     private final MybatisPaginationRepository paginationRepository;
     private final ItemService itemService;
 
+
+    //한 페이지에서 보여주는 게시글은 15개
+    int pageSize =  15;
+    // 하나의 블럭에서 보여줄 버튼은 5개
+    double btnCnt = 5;
+
     public pagination getPagination(double btnNum)
     {
-        //한 페이지에서 보여주는 게시글은 15개
-        int pageSize = 15;
-        // 하나의 블럭에서 보여줄 버튼은 5개
-        double btnCnt = 5;
-
-        //첫 시작페이지는 무조건 1페이지
-
 
         //버튼의 총 개수를 구한다.
         int totalBtnCnt = (int)getTotalBtnCnt();
@@ -50,9 +49,13 @@ public class paginationService {
         {
             prevBlock = 1;
         }
-        if(nextBlock > totalBtnCnt)
+        // 끝 페이지의 위치를 게시글의 개수와 맞게 조절해주기 위해 모든 게시글을 조회해오는 리스트를 선언한다.
+        List<Item> freeBoardItems = itemService.getFreeBoard();
+
+        // next 버튼이 게시글의 끝 페이지와 동일한 URL 로 이동할 수 있도록 validation 해주어야 한다.
+        if(nextBlock > (freeBoardItems.size())/15)
         {
-            nextBlock = totalBtnCnt;
+            nextBlock = freeBoardItems.size()/15;
         }
         // 시작 페이지
         int startPage = (int)((nowBlock - 1) * btnCnt + 1);
@@ -60,20 +63,24 @@ public class paginationService {
         // 끝 페이지
         int endPage = (int)(startPage + btnCnt - 1);
 
+        //조회를 통해 가져온 모든 아이템의 개수가 끝페이지보다 적을때(17페이지에 마지막게시글이 있는데 페이지는 20페이지 까지 가는경우) 끝 게시글에 맞춰 페이지가 끝날수 있도록 validation 해야 한다.
+        if(endPage > (freeBoardItems.size()/15))
+        {
+            endPage = freeBoardItems.size()/15;
+            if(endPage <=0)
+            {
+                nextBlock = 1;
+                endPage = 1;
+            }
+        }
+
+
         // 최종적으로 넘길 페이지네이션 클래스를 생성하여 넘긴다.
         return new pagination(startPage, endPage, pageSize, btnCnt, btnBlockCnt, totalBtnCnt, items, nowBlock, prevBlock, nextBlock);
     }
 
     public pagination searchedPagination(int type,String keyword,int btnNum)
     {
-        //한 페이지에서 보여주는 게시글은 15개
-        int pageSize = 15;
-        // 하나의 블럭에서 보여줄 버튼은 5개
-        double btnCnt = 5;
-
-        //첫 시작페이지는 무조건 1페이지
-
-
         //버튼의 총 개수를 구한다.
         int totalBtnCnt = (int)getTotalBtnCnt();
         //버튼블럭의 개수를 구한다.
@@ -89,6 +96,9 @@ public class paginationService {
 
         List<Item> searchedItems = itemService.searchProcess(type, keyword,start,pageSize);
 
+        //끝 페이지의 위치를 게시글의 개수와 맞게 조절해주기 위해 검색결과에 해당하는 모든 게시물을 조회하는 리스트를 선언한다.
+        List<Item> itemsAll = itemService.searchAll(type, keyword);
+
         //페이지 블럭(prev,next) 구현
         int nowBlock =  (int)Math.ceil((btnNum / btnCnt));
         int nextBlock =(int)((nowBlock * btnCnt) + 1);
@@ -97,22 +107,29 @@ public class paginationService {
         {
             prevBlock = 1;
         }
-        if(nextBlock > totalBtnCnt)
+        if(nextBlock > (itemsAll.size()/15))
         {
-            nextBlock = totalBtnCnt;
+            nextBlock = itemsAll.size()/15;
         }
         // 시작 페이지
         int startPage = (int)((nowBlock - 1) * btnCnt + 1);
 
         // 끝 페이지
         int endPage = (int)(startPage + btnCnt - 1);
+        if(endPage > (itemsAll.size()/15))
+        {
+            endPage = itemsAll.size()/15;
+            if(endPage <=0)
+            {
+                nextBlock = 1;
+                endPage = 1;
+            }
+        }
 
         // 최종적으로 넘길 페이지네이션 클래스를 생성하여 넘긴다.
         return new pagination(startPage, endPage, pageSize, btnCnt, btnBlockCnt, totalBtnCnt, searchedItems, nowBlock, prevBlock, nextBlock);
 
     }
-
-
 
 
     //버튼의 총 개수를 구한다.
@@ -129,33 +146,12 @@ public class paginationService {
         return paginationRepository.findPageSize(start, pageSize);
     }
 
-    // prev, next 버튼의 활성화/비활성화 여부를 알려주는 메서드
-    public Boolean checkPrevNextBtn(int startPage,int nowPage,int endPage)
-    {
-        if(startPage == endPage && endPage == 1)
-        {
-            return false;
-        }
-        else if (endPage > 1 && nowPage == startPage)
-        {
-            return true;
-        } else if (endPage > 1 && nowPage == endPage)
-        {
-            return true;
-        }
-        else return true;
-
-    }
     // totalBtn 으로 버튼의 단위개수(5개 기준) 설정 (총 버튼개수가 15개면 버튼블럭의 수는 3)
     public double calcBtnCnt(double totalBtnCnt)
     {
         return Math.ceil((double)totalBtnCnt / 5);
     }
 
-    public int calcEndPage(int btnCnt)
-    {
-        return btnCnt*5;
-    }
 
 
 

@@ -4,13 +4,17 @@
 <mapper namespace="forum.board.repository.mybatisMapper.uploadFileMapper">
 
     <insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
-        insert into uploadfile (item_id,origin_name,store_name) values (#{itemId},#{uploadFileName},#{storeFileName})
+        insert into uploadfile (item_id,upload_file_name,store_file_name) values (#{itemId},#{uploadFileName},#{storeFileName})
     </insert>
 
     <insert id="saveFiles" useGeneratedKeys="true" keyProperty="fileId">
-        insert into uploadfile (item_id,origin_name,store_name) values <foreach collection="list" item="uploadFiles" separator=",">
+        insert into uploadfile (item_id,upload_file_name,store_file_name) values <foreach collection="list" item="uploadFiles" separator=",">
                                                 (#{uploadFiles.itemId},#{uploadFiles.uploadFileName},#{uploadFiles.storeFileName})
                                                                    </foreach>
     </insert>
+
+    <select id="findFileById" resultType="UploadFile">
+        select * from uploadfile where item_id = #{itemId}
+    </select>
 
 </mapper>

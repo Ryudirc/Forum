@@ -105,6 +105,12 @@
                     <dt><i class="fa-solid fa-eye" th:text="${item.getViewCnt()}"></i></dt>
                 </dl><br>
                 <hr>
+                    <th:block th:if="${item.getAttachFiles() != null}" th:each="attachFile : ${item.getAttachFiles()}" >
+                        첨부파일 : <a th:href="@{/attach/{id}(id=${attachFile.itemId},filename=${attachFile.getUploadFileName()})}" th:text="${attachFile.getUploadFileName()}"></a>
+                        <br>
+                    </th:block>
+                    <p th:if="${item.getAttachFiles().isEmpty()}" th:text="|첨부된 파일이 없습니다.|"></p>
+                <hr>
                 <p th:utext="${item.content}"></p>
 
             </div>
