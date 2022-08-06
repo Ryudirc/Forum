@@ -59,10 +59,12 @@ public class ItemService {
 
         //multipartFile 로 넘어온 데이터 처리 로직 작성(만약 첨부파일이 넘어오지 않으면, DB에 데이터를 넣지 않음)
         Long itemId = item.getItemId();
-        if(form.getAttachFiles().stream().count()>=1){
-            List<UploadFile> attachFiles = fileStore.storeFiles(itemId, form.getAttachFiles());
-            fileRepository.saveFiles(attachFiles);
-            item.setAttachFiles(attachFiles);
+        if(form.getAttachFiles().stream().count()>= 1){
+            if(!form.getAttachFiles().iterator().next().getOriginalFilename().isEmpty()) {
+                List<UploadFile> attachFiles = fileStore.storeFiles(itemId, form.getAttachFiles());
+                fileRepository.saveFiles(attachFiles);
+                item.setAttachFiles(attachFiles);
+            }
         }
         return item;
     }

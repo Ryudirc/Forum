@@ -14,7 +14,7 @@
     </insert>
 
     <select id="findFileById" resultType="UploadFile">
-        select * from uploadfile where item_id = #{itemId}
+        select * from uploadfile where item_id=#{itemId}
     </select>
 
 </mapper>
