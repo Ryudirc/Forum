@@ -80,8 +80,9 @@
                             <!-- Product name-->
                             <h5 class="fw-bolder" th:text="*{product.prodName}">상품명</h5>
                             <!-- Product price-->
-                            <span th:if="*{product.prodDiscountPrice > 0}" th:text="|*{#numbers.formatInteger(product.prodDiscountPrice,3,'COMMA')}원|" class="text-muted text-decoration-line-through">discountPrice</span>
-                            <p th:text="|*{#numbers.formatInteger(product.prodPrice,3,'COMMA')}원|">price</p>
+                            <p th:if="*{product.prodDiscountPrice == 0}" th:text="|*{#numbers.formatInteger(product.prodPrice,3,'COMMA')}원|">Price</p>
+                            <span th:if="*{product.prodDiscountPrice > 0}" th:text="|*{#numbers.formatInteger(product.prodPrice,3,'COMMA')}원|" class="text-muted text-decoration-line-through">discountPrice</span>
+                            <p th:if="*{product.prodDiscountPrice > 0}" th:text="|*{#numbers.formatInteger(product.prodDiscountPrice,3,'COMMA')}원|">price</p>
                         </div>
                     </div>
                     <!-- Product actions-->

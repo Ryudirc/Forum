@@ -83,24 +83,38 @@ public class shopController {
 
     // 상품상세 화면 처리(권한별 처리)
     @GetMapping("/bgshop/prodDetail/{prodId}")
-    public String getProdDetail(@PathVariable Long prodId,Model model)
+    public String getProdDetail(@PathVariable Long prodId,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member, Model model)
     {
         Products findProd = productsService.findProdById(prodId);
-        List<Products> relatedProdList = new ArrayList<>();
-        if(findProd.getProdCategory().equals("normalProd")){
-            relatedProdList = productsService.getRelatedProd(findProd.getProdCategory());
-        }
-        if(findProd.getProdCategory().equals("discountProd")){
-            relatedProdList = productsService.getRelatedProd(findProd.getProdCategory());
-        }
+        List<Products> relatedProdList = productsService.getRelatedProd(findProd.getProdCategory());
 
-        model.addAttribute("relatedProdList",relatedProdList);
-        model.addAttribute("product",findProd);
-        model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
-        return "shop/prodDetail";
+        if(findProd.getProdCategory().equals("normalProd"))
+        {
+            return getProdDetailURL(member, model, findProd, relatedProdList);
+        }
+        if(findProd.getProdCategory().equals("discountProd"))
+        {
+            return getProdDetailURL(member, model, findProd, relatedProdList);
+        }
+        return "redirect:/";
     }
 
-
+    // getProdDetail 메서드에 사용되는 메서드로, 코드중복적인 부분만 리팩터링해서 따로 추출한 메서드임
+    public String getProdDetailURL(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) loginMember member, Model model, Products findProd, List<Products> relatedProdList) {
+        if(member != null)
+        {
+            model.addAttribute("member",member);
+            model.addAttribute("product",findProd);
+            model.addAttribute("relatedProdList",relatedProdList);
+            model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
+            return "shop/loginProdDetail";
+        }else {
+            model.addAttribute("product",findProd);
+            model.addAttribute("relatedProdList",relatedProdList);
+            model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
+            return "shop/prodDetail";
+        }
+    }
 
 
 }

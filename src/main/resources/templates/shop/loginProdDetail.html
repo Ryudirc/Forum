@@ -32,23 +32,24 @@
             border-radius: 0.25rem;
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
-    </style>
-    <script lang="JavaScript">
-        function showPopup() {
-            var url = "/bgshop/signup/";
-            var title = "회원가입";
-            var prop = "width=700px, height=950px";
-            window.open(url,title,prop);
+        .top-mg {
+            margin-right: 62px;
+            display: inline;
         }
-    </script>
+        .top-lo {
+            margin-right: 50px;
+            margin-left: -15px;
+            display: inline;
+        }
+    </style>
 </head>
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" th:href="@{/}">BoardGameMall</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="navbar-collapse collapse show" id="navbarSupportedContent" style="">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">자유게시판</a></li>
@@ -63,11 +64,20 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" th:onclick="showPopup()" style="cursor: pointer">회원가입</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/bgshop/login/}">로그인</a></li>
-            </ul>
+            <div th:object="${member}" class="top-mg">
+                <ul class="navbar-nav mb-2 mg">
+                    <a th:href="@{/profile/{memberName}(memberName=${member.getMemberName()})}"><li class="nav-item" th:text="|*{memberName}님, 환영합니다.|"></li></a>
+                </ul>
+            </div>
+            <div class="top-lo">
+            <form th:action="@{/bgshop/logout}" th:method="post">
+                <ul class="navbar-nav mb-2 mg">
+                    <li class="nav-item"><button type="submit">로그아웃</button></li>
+                </ul>
+            </form>
+            </div>
             <form class="d-flex">
+
                 <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
