@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Forum Login</title>
+	<title>Shop Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -26,25 +26,45 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/login/css/util.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/login/css/main.css}">
 <!--===============================================================================================-->
+	<style>
+		.mgtop {
+			margin-top: 40px;
+		}
+		.fnt-size {
+			font-size: 20px;
+		}
+		.wrap-width {
+			width: 487px;
+		}
+	</style>
+	<script lang="JavaScript">
+		function showPopup() {
+			var url = "/bgshop/signup/";
+			var title = "회원가입";
+			var prop = "width=700px, height=950px";
+			window.open(url,title,prop);
+		}
+	</script>
 </head>
 <body>
 	
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100">
-				<form th:action th:method="POST" class="login100-form validate-form">
+			<div class="wrap-login100 wrap-width">
+				<form th:action th:method="post" th:object="${loginForm}" class="login100-form validate-form">
 					<span class="login100-form-title p-b-26">
 						Welcome
 					</span>
-					<span class="login100-form-title p-b-48">
+					<span class="login100-form-title p-b-48 fnt-size">
+						서비스를 이용하기위해 로그인을 해주세요.
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+					<div class="wrap-input100">
 						<input class="input100" type="text" name="memberAcct">
 						<span class="focus-input100" data-placeholder="ID"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
+					<div class="wrap-input100">
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
@@ -61,23 +81,35 @@
 						</div>
 					</div>
 
+					<div class="alert alert-danger mgtop" role="alert" th:if="${#fields.hasGlobalErrors()}">
+						<p th:each="err:${#fields.globalErrors()}" th:text="${err}">danger message</p>
+					</div>
+
 					<div class="text-center p-t-115">
 						<span class="txt1">
 							계정이 없으신가요?
 						</span>
 
-						<a class="txt2" th:href="@{/forum/signup/}">
+						<a class="txt2" th:onclick="showPopup()" style="cursor: pointer">
 							  회원가입
 						</a>
+						<br>
+						<span class="txt1">
+							홈페이지로 이동할까요?
+						</span>
+
+						<a class="txt2" th:href="@{/}">
+							홈페이지
+						</a>
 					</div>
+
 				</form>
 			</div>
 		</div>
 	</div>
-	
+
 
 	<div id="dropDownSelect1"></div>
-	
 <!--===============================================================================================-->
 	<script th:src="@{/login/vendor/jquery/jquery-3.2.1.min.js}"></script>
 <!--===============================================================================================-->

@@ -10,14 +10,35 @@
         update member set member_pw=#{updateMember.memberPw}, member_name=#{updateMember.memberName}, member_email=#{updateMember.memberEmail} where member_id=#{id}
     </update>
 
+    <update id="updateRole">
+        update member set Role=#{role} where member_id=#{id}
+    </update>
+
     <select id="findById" resultType="Member">
         select * from member where member_id=#{id}
+    </select>
+
+    <select id="findByLoginInfo" resultType="Member">
+        select * from member where member_acct=#{loginId} and BINARY(member_pw)=#{loginPw}
     </select>
 
     <select id="findAll" resultType="Member">
         select * from member
 
     </select>
+
+    <select id="findByLoginId" resultType="String">
+        select member_acct from member where member_acct=#{loginId}
+    </select>
+
+    <select id="findByName" resultType="String">
+        select member_name from member where member_name=#{name}
+    </select>
+
+    <select id="findByEmail" resultType="String">
+        select member_email from member where member_email=#{email}
+    </select>
+
 
     <delete id="delete">
         delete from member where member_id=#{id}

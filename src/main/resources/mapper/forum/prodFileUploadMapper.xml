@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="forum.board.repository.mybatisMapper.prodFileUploadMapper">
+
+    <insert id="saveProdFile" useGeneratedKeys="true" keyProperty="ProdImgId">
+        insert into uploadprodfile (prod_id,upload_file_name,store_file_name) values (#{prodId},#{uploadFileName},#{storeFileName})
+    </insert>
+
+
+    <select id="findProdFileByName" resultType="UploadProdFile">
+        select * from uploadprodfile where store_file_name=#{fileName}
+    </select>
+
+    <select id="findProdFileById" resultType="UploadProdFile">
+        select * from uploadprodfile where prod_id=#{id}
+    </select>
+
+    <update id="updateImgFile">
+        update uploadprodfile set upload_file_name=#{updateFile.uploadFileName},store_file_name=#{updateFile.storeFileName} where prod_id=#{id}
+    </update>
+
+</mapper>

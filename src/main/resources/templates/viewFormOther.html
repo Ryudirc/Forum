@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>BoardGameShop</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/freeboard/assets/favicon.ico}">
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" th:href="@{/freeboard/css/styles.css}"/>
+    <!-- CSS only -->
+
+    <style>
+        p {
+            font-family: "ELAND 초이스 Medium";
+        }
+        dt {
+            float: left;
+        }
+
+        article {
+            flex: 1;
+        }
+        .btn-pos {
+            width: 10px;
+            height: 50px;
+            margin: auto;
+            float: left;
+        }
+        html,body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #body-wrapper {
+            min-height: 100%;
+            position: relative;
+        }
+
+        #body-content {
+            margin-top: 100px;
+            padding-bottom: 24px; /* footer의 높이 */
+        }
+
+        footer {
+            width: 100%;
+            height: 24px; /* footer의 높이 */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .mg {
+            margin-left: 2px;
+            margin-right: 50px;
+        }
+
+    </style>
+    <script src="https://kit.fontawesome.com/f16c739b14.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/}">BoardGameMall</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">자유게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/}">모든상품보기</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[0]})}">일반상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[1]})}">할인상품</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div th:object="${member}">
+                <ul class="navbar-nav mb-2 mg">
+                    <li class="nav-item" th:text="|*{memberName}님, 안녕하세요!|"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">자유게시판</h1>
+            <p class="lead fw-normal text-white-50 mb-0">보드게임과 관련된 이야기들을 나눠보세요!</p>
+        </div>
+    </div>
+</header>
+<div id="body-wrapper">
+    <div id="body-content">
+        <!-- Section-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h1 th:utext="${item.title}">title</h1>
+                        <hr>
+                        <dl>
+                            <dt th:text="${item.writer}"> 작성자 </dt>
+                            <dt>&nbsp;||&nbsp;</dt>
+                            <dt><i class="fa-solid fa-comment">21</i></dt>
+                            <dt>&nbsp;||&nbsp;</dt>
+                            <dt><i class="fa-solid fa-eye" th:text="${item.getViewCnt()}"></i></dt>
+                        </dl><br>
+                        <hr>
+                        <th:block th:if="${item.getAttachFiles() != null}" th:each="attachFile : ${item.getAttachFiles()}" >
+                            첨부파일 : <a th:href="@{/attach/{id}(id=${attachFile.itemId},filename=${attachFile.getUploadFileName()})}" th:text="${attachFile.getUploadFileName()}"></a>
+                            <br>
+                        </th:block>
+                        <p th:if="${item.getAttachFiles().isEmpty()}" th:text="|첨부된 파일이 없습니다.|"></p>
+                        <hr>
+                        <p th:utext="${item.content}"></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="btn-pos">
+                <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/forum/freeBoard}'|">목록으로</button>
+            </div>
+        </article>
+    </div>
+    <!-- Footer-->
+    <footer id="footer" class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</div>
+</body>
+</html>

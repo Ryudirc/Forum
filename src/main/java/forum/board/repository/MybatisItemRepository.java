@@ -1,5 +1,6 @@
 package forum.board.repository;
 
+import forum.board.controller.DTO.ItemUpdateForm;
 import forum.board.domain.Item;
 import forum.board.repository.RepositoryInterface.ItemRepository;
 import forum.board.repository.mybatisMapper.ItemMapper;
@@ -23,6 +24,7 @@ public class MybatisItemRepository implements ItemRepository {
     public Item findById(Long itemId) {
         return itemMapper.findById(itemId);
     }
+
 
     @Override
     public List<Item> findAll() {

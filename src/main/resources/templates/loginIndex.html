@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>BoardGameShop</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/freeboard/assets/favicon.ico}">
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/freeboard/css/styles.css}" rel="stylesheet">
+    <style>
+        .mg {
+            margin-left: 2px;
+            margin-right: 50px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/}">BoardGameMall</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="navbar-collapse collapse show" id="navbarSupportedContent" style="">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">자유게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/}">모든상품보기</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[0]})}">일반상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[1]})}">할인상품</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div th:object="${member}">
+            <ul class="navbar-nav mb-2 mg">
+                <a th:href="@{/profile/{memberName}(memberName=${member.getMemberName()})}"><li class="nav-item" th:text="|*{memberName}님, 환영합니다.|"></li></a>
+            </ul>
+            </div>
+            <form th:action="@{/bgshop/logout}" th:method="post">
+            <ul class="navbar-nav mb-2 mg">
+                <li class="nav-item"><button type="submit">로그아웃</button></li>
+            </ul>
+            </form>
+            <form class="d-flex">
+
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">보드게임 몰</h1>
+            <p class="lead fw-normal text-white-50 mb-0">다양한 보드게임 상품을 구경하세요!</p>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="col mb-5" th:each="product : ${products}">
+                <div class="card h-100">
+                    <!-- Sale badge -->
+                    <div th:if="*{product.prodDiscountPrice > 0}" class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="|/prodImage/*{product.prodId}|" alt="..." width="450" height="300">
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder" th:text="*{product.prodName}">상품명</h5>
+                            <!-- Product price-->
+                            <p th:if="*{product.prodDiscountPrice == 0}" th:text="|*{#numbers.formatInteger(product.prodPrice,3,'COMMA')}원|">Price</p>
+                            <span th:if="*{product.prodDiscountPrice > 0}" th:text="|*{#numbers.formatInteger(product.prodPrice,3,'COMMA')}원|" class="text-muted text-decoration-line-through">discountPrice</span>
+                            <p th:if="*{product.prodDiscountPrice > 0}" th:text="|*{#numbers.formatInteger(product.prodDiscountPrice,3,'COMMA')}원|">price</p>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" th:href="@{/bgshop/prodDetail/{prodId}(prodId=*{product.prodId})}">상품상세</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright © Your Website 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script th:src="@{/freeboad/js/scripts.js}"></script>
+
+</body>
+</html>

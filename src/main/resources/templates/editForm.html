@@ -2,10 +2,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>editForm</title>
+    <title>BoardGameForum</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/freeboard/assets/favicon.ico}">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -57,29 +59,43 @@
             padding: 8px 13px;
             font-size: 10px;
         }
+        .mg {
+            margin-left: 350px;
+            margin-right: 50px;
+            margin-top: 16px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">BoardGameMall</a>
+        <a class="navbar-brand" th:href="@{/}">BoardGameMall</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">FreeBoard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">자유게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">모든제품보기</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">인기있는제품</a></li>
-                        <li><a class="dropdown-item" href="#!">신상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/}">모든상품보기</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[0]})}">일반상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[1]})}">할인상품</a></li>
                     </ul>
                 </li>
             </ul>
+            <div th:object="${member}">
+                <ul class="navbar-nav mb-2 mg">
+                    <li class="nav-item" th:text="|*{memberName}님, 안녕하세요!|"></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -97,10 +113,12 @@
         <!-- Section-->
         <section>
             <div class="container">
-                <form  th:action method="post" enctype="multipart/form-data">
-                    <input class="form-control no-border title" type="text" th:field="${item.title}" placeholder="제목을 입력해주세요.">
+                <form  th:action method="post" th:object="${form}" enctype="multipart/form-data">
+                    <input class="form-control no-border title" type="text" th:field="*{title}" placeholder="제목을 입력해주세요.">
                     <hr>
-                    <textarea id="summernote" th:field="${item.content}"></textarea>
+                    <p class="field-error" th:errors="*{title}"/>
+                    <textarea id="summernote" th:field="*{content}"></textarea>
+                    <p class="field-error" th:errors="*{content}"/>
                     <!--<hr>
                     <div class="mb-3">
                         <label for="attachFile" class="form-label">첨부파일 등록</label>
@@ -113,7 +131,7 @@
                     <hr>
                     <button type="submit" class="btn btn-secondary">작성완료</button>
                 </form>
-                <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/forum/freeBoard/viewForm/{itemId}(itemId=${item.itemId})}'|">작성취소</button>
+                <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/forum/freeBoard/viewForm/{itemId}(itemId=${form.itemId})}'|">작성취소</button>
                 <script>
 
                     // summernote 노출 함수

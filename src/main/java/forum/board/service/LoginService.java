@@ -1,21 +1,27 @@
 package forum.board.service;
 
 import forum.board.controller.DTO.loginForm;
+import forum.board.domain.Member;
+import forum.board.repository.MybatisMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
+    private final MybatisMemberRepository memberRepository;
 
-    public Boolean doLogin(loginForm form)
+
+    public Member doLogin(loginForm form)
     {
-        // 로그인 폼 정보를 받아와서 validation 을 수행하고 결과값이 참이면 true 를 리턴하고, 결과값이 참이 아니면 false 를 리턴한다.
-        if(true)
+        if(memberRepository.findByLoginInfo(form.getMemberAcct(),form.getMemberPw()) == null)
         {
-            return true;
+            return null;
         }
-        else {
-            return false;
-        }
+        return memberRepository.findByLoginInfo(form.getMemberAcct(),form.getMemberPw());
     }
+
+
 }

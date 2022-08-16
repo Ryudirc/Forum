@@ -1,9 +1,11 @@
 package forum.board.service;
 
 
-import forum.board.controller.DTO.ItemForm;
+import forum.board.controller.DTO.ItemSaveForm;
+import forum.board.controller.DTO.ItemUpdateForm;
 import forum.board.domain.Item;
 import forum.board.domain.UploadFile;
+import forum.board.domain.loginMember;
 import forum.board.global.FileStore;
 import forum.board.repository.MybatisFileRepository;
 import forum.board.repository.MybatisItemRepository;
@@ -45,13 +47,13 @@ public class ItemService {
         itemRepository.delete(itemId);
     }
 
-    public Item formFileProcess(ItemForm form) throws IOException {
+    public Item formFileProcess(ItemSaveForm form, loginMember member) throws IOException {
 
         //데이터베이스에 저장
         Item item = new Item();
         item.setTitle(form.getTitle());
         item.setContent(form.getContent());
-        item.setWriter("RMA전문가");
+        item.setWriter(member.getMemberName());
         item.setViewCnt(0);
         item.setGoodCnt(0);
         itemRepository.save(item);
@@ -86,7 +88,7 @@ public class ItemService {
     }
 
 
-    public void updateItem(Long itemId, ItemForm updateItem)
+    public void updateItem(Long itemId, ItemUpdateForm updateItem)
     {
         Item findItem = itemRepository.findById(itemId);
         findItem.setTitle(updateItem.getTitle());

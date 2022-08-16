@@ -6,6 +6,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>BoardGameForum</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/freeboard/assets/favicon.ico}">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -46,14 +48,17 @@
             color: orange;
             text-decoration: underline;
         }
-
+        .mg {
+            margin-left: 2px;
+            margin-right: 50px;
+        }
     </style>
 </head>
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">BoardGameMall</a>
+        <a class="navbar-brand" th:href="@{/}">BoardGameMall</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -63,13 +68,18 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">모든제품보기</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">인기있는제품</a></li>
-                        <li><a class="dropdown-item" href="#!">신상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/}">모든상품보기</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[0]})}">일반상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[1]})}">할인상품</a></li>
                     </ul>
                 </li>
             </ul>
+            <div th:object="${member}">
+                <ul class="navbar-nav mb-2 mg">
+                    <li class="nav-item" th:text="|*{memberName}님, 안녕하세요!|"></li>
+                </ul>
+            </div>
             <form class="d-flex">
                 <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-cart-fill me-1"></i>

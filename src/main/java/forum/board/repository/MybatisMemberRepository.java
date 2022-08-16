@@ -14,8 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MybatisMemberRepository implements memberRepository {
 
-   //private final Map<Long,Member> memberRepository = new HashMap<>();
-  //private Long sequence = 0L;
+
     private final memberMapper memberMapper;
 
     @Override
@@ -24,14 +23,42 @@ public class MybatisMemberRepository implements memberRepository {
     }
 
     @Override
-    public Optional<Member> findById(Long memberId)
+    public Member findById(Long memberId)
     {
-        return Optional.ofNullable(memberMapper.findById(memberId));
+        return memberMapper.findById(memberId);
     }
+
+    @Override
+    public Member findByLoginInfo(String loginId,String loginPw)
+    {
+        return memberMapper.findByLoginInfo(loginId,loginPw);
+    }
+
+    @Override
+    public String findByLoginId(String id) {
+        return memberMapper.findByLoginId(id);
+    }
+
+    @Override
+    public String findByName(String name) {
+        return memberMapper.findByName(name);
+    }
+
+    @Override
+    public String findByEmail(String email) {
+        return memberMapper.findByEmail(email);
+    }
+
 
     @Override
     public void update(Long memberId, Member updateMember) {
         memberMapper.update(memberId,updateMember);
+    }
+
+    @Override
+    public void updateRole(Long memberId,String role)
+    {
+        memberMapper.updateRole(memberId,role);
     }
 
     @Override

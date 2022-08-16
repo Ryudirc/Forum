@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Order</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            max-width: 960px;
+        }
+
+        .form-pos {
+            margin : auto;
+        }
+
+        .btn-pos{
+
+            margin : auto;
+        }
+        .zip{
+            width : 95px;
+            display : inline;
+
+        }
+
+        .addr {
+            width : 550px;
+            display : inline;
+        }
+
+        .addrDetail {
+            width : 260px;
+            display : inline;
+        }
+
+        .addrRefer {
+            width : 220px;
+            display : inline;
+        }
+
+        .btn-pos {
+
+            margin-left : 235px;
+        }
+
+        .lh-condensed { line-height: 1.25; }
+
+        .totalPrice {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="https://svgsilh.com/svg/371979.svg" alt="" width="72" height="72">
+        <h2>주문서</h2>
+        <p class="lead">아래의 정보를 기입하여 결제를 완료하여 주십시오.</p>
+    </div>
+    <div class="row">
+
+        <div class="col-md-8 order-md-1 form-pos">
+            <h4 class="mb-3">배송지 정보</h4>
+            <form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">성명</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">연락처</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="delivery">배송 시 요청사항<span class="text-muted">(선택사항)</span></label>
+                 <input type="text" class="form-control" id="delivery" placeholder="배송시 요청사항을 선택하거나 입력해주세요." list="datalistOptions">
+                    <datalist id="datalistOptions">
+                        <option value="배송 전 연락 부탁드립니다.">
+                        <option value="부재 시 경비실에 맡기고 연락 부탁드립니다.">
+                        <option value="부재 시 연락 또는 문자 남겨주세요.">
+                        <option value="안전하고 빠른배송 부탁드립니다.">
+                        <option value="손상없이 안전하게 배송 부탁드립니다.">
+                        <option value="경비실이 없습니다. 배송 전, 연락주세요.">
+                        <option value="선택안함">
+                    </datalist>
+                </div>
+                <div class="mb-3">
+                    <label for="postcode">주소입력</label><br>
+                    <input type="text" id="postcode" placeholder="우편번호" class=" form-control zip">
+                    <input type="button" onclick="DaumPostcode()" value="우편번호 찾기" class="btn btn-primary"><br>
+                    <input type="text" id="address" placeholder="주소" class="form-control addr" disabled><br>
+                    <input type="text" id="detailAddress" placeholder="상세주소" class="form-control addrDetail">
+                    <input type="text" id="extraAddress" placeholder="참고항목" class="form-control addrRefer">
+                </div>
+                <hr class="mb-4">
+                <h4 class="mb-3">선택한 상품 정보</h4>
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <th>상품이름</th>
+                        <th>수량</th>
+                        <th>가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>상품이름text</td>
+                        <td>수량int</td>
+                        <td>상품단일가격</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h3 class="totalPrice">총 가격 :</h3>
+                <p class="totalPrice" style="font-size: 25px">10원</p>
+                <hr class="mb-4">
+                <h4 class="mb-3">결제 정보</h4>
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                        <label class="custom-control-label" for="credit">포인트 결제</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name">보유중인 포인트</label>
+                        <input type="text" class="form-control" id="cc-name" value="1000" required="" disabled>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">차감 후 포인트</label>
+                        <input type="text" class="form-control" id="cc-number" value="400" required="" disabled>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block btn-pos" type="submit">결제완료</button>
+            </form>
+        </div>
+    </div>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2017-2019 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function DaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("extraAddress").value = extraAddr;
+
+                } else {
+                    document.getElementById("extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddress").focus();
+            }
+        }).open();
+    }
+</script>
+</body>
+</html>

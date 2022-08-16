@@ -9,6 +9,6 @@ package forum.board.global;
  */
 public enum Role {
 
-    ADMIN,BUYER,USER,GUEST
+    ADMIN,USER,GUEST
 
 }

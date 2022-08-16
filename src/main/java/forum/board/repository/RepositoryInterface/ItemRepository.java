@@ -1,5 +1,6 @@
 package forum.board.repository.RepositoryInterface;
 
+import forum.board.controller.DTO.ItemUpdateForm;
 import forum.board.domain.Item;
 
 import java.util.List;
