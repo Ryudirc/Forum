@@ -1,17 +1,8 @@
 package forum.board.controller;
 
-import forum.board.domain.loginMember;
-import forum.board.domain.test;
-import forum.board.global.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 주문 컨트롤러
