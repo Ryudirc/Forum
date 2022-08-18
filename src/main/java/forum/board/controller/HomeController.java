@@ -5,6 +5,7 @@ import forum.board.domain.loginMember;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
 import forum.board.service.ProductsService;
+import forum.board.service.cartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +27,14 @@ import java.util.List;
 public class HomeController {
 
     private final ProductsService productsService;
+    private final cartService cartService;
 
     @GetMapping("/")
     public String HomeIndex(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) loginMember loginMember, Model model)
     {
         List<Products> prodAll = productsService.getProdAll();
+        int cartCnt = 0;
+
         // 로그인을 하지 않은 사용자는 굳이 불필요하게 세션을 만들 이유가 없으니 false 로 세션을 가져와야 한다.
         if(loginMember == null)
         {
@@ -39,9 +43,13 @@ public class HomeController {
             return "index";
         }
 
+        if(cartService.getCartCnt(loginMember.getMemberId()) != null) {
+            cartCnt = (int)cartService.getCartCnt(loginMember.getMemberId());
+        }
         model.addAttribute("member",loginMember);
         model.addAttribute("products",prodAll);
         model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
+        model.addAttribute("cartCnt",cartCnt);
 
         return "loginIndex";
     }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cart</title>
+    <!-- css-->
+    <link th:href="@{/../shop/css/bootstrap.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <!-- js-->
+    <script th:src="@{/../shop/js/bootstrap.min.js}"></script>
+    <script th:src="@{/../shop/js/jquery-3.3.1.slim.min.js}"></script>
+    <script th:src="@{/../shop/js/popper.min.js}"></script>
+    <style>
+        .mag-left1{
+            margin-left: 200px;
+        }
+        .mag-left2 {
+            margin-left: 40px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/}">BoardGameMall</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/forum/freeBoard/}">자유게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/}">모든상품보기</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[0]})}">일반상품</a></li>
+                        <li><a class="dropdown-item" th:href="@{/bgshop/prodCategory/{category}(category=${categoryType[1]})}">할인상품</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div th:object="${member}" class="top-mg mag-left1">
+                <ul class="navbar-nav mb-2 mg">
+                    <a th:href="@{/profile/{memberName}(memberName=${member.getMemberName()})}"><li class="nav-item" th:text="|*{memberName}님, 환영합니다.|"></li></a>
+                </ul>
+            </div>
+            <div class="top-lo mag-left2">
+                <form th:action="@{/bgshop/logout}" th:method="post">
+                    <ul class="navbar-nav mb-2 mg">
+                        <li class="nav-item"><button type="submit">로그아웃</button></li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Product section-->
+<section class="pt-5 pb-5">
+    <div class="container">
+        <div class="row w-100">
+            <div class="col-lg-12 col-md-12 col-12">
+                <h3 class="display-5 mb-2 text-center">나의 장바구니</h3>
+                <p class="mb-5 text-center"><i class="text-info font-weight-bold" th:text="${cartCnt}">3</i> 개의 상품이 장바구니에 있어요!</p>
+                <table id="shoppingCart" class="table table-condensed table-responsive">
+                    <thead>
+                    <tr>
+                        <th style="width:60%">상품명</th>
+                        <th style="width:12%">가격</th>
+                        <th style="width:10%">수량</th>
+                        <th style="width:16%"></th>
+                        <th style="width:10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cart : ${cartList}">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-3 text-left">
+                                    <img th:src="|/prodImage/*{cart.prodId}|" width="250" height="250" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                </div>
+                                <div class="col-md-9 text-left mt-sm-2">
+                                    <h4 th:text="*{cart.prodName}">Product Name</h4>
+                                </div>
+                            </div>
+                        </td>
+                        <td th:text="|${#numbers.formatInteger(cart.prodPrice,3,'COMMA')}원|">$49.00</td>
+                        <form  th:action="@{/bgshop/prodCart/quantityUpdate/{memberId}(memberId=${member.memberId})}" th:method="post">
+                        <td>
+                            <input type="number" class="form-control form-control-lg text-center" min="1" th:value="*{cart.prodCnt}" id="prodCnt" name="prodCnt">
+                        </td>
+                        <td class="actions">
+                            <div class="text-right">
+                                <input type="hidden" th:value="*{cart.prodId}" id="prodId" name="prodId">
+                                <button class="btn btn-white border-secondary bg-white btn-md mb-2" type="submit">
+                                    <i class="fas fa-sync"></i>
+                                </button>
+                            </div>
+                        </td>
+                        </form>
+                        <form th:action="@{/bgshop/prodCart/deleteProd/{memberId}/{prodId}(memberId=${member.memberId},prodId=${cart.prodId})}" th:method="get">
+                        <td class="actions">
+                            <div class="text-right">
+                            <button class="btn btn-white border-secondary bg-white btn-md mb-2" type="submit">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            </div>
+                        </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="float-right text-right">
+                    <h4>총 결제금액:</h4>
+                    <h1 th:text="|${#numbers.formatInteger(totalPrice,3,'COMMA')}원|">$99.00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4 d-flex align-items-center">
+            <div class="col-sm-6 order-md-2 text-right">
+                <a href="catalog.html" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">주문하기</a>
+            </div>
+            <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                <a th:href="@{/}">
+                    <i class="fas fa-arrow-left mr-2"></i> 계속 쇼핑하러 가기</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -52,10 +52,10 @@
             </form>
             <form class="d-flex">
 
-                <button class="btn btn-outline-dark" type="submit">
+                <button class="btn btn-outline-dark" type="button" th:onclick="|location.href='@{/bgshop/prodCart/{memberId}(memberId=${member.memberId})}'|">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span th:text="${cartCnt}" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </form>
         </div>

@@ -78,10 +78,10 @@
             </div>
             <form class="d-flex">
 
-                <button class="btn btn-outline-dark" type="submit">
+                <button class="btn btn-outline-dark" type="button" th:onclick="|location.href='@{/bgshop/prodCart/{memberId}(memberId=${member.memberId})}'|">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span th:text="${cartCnt}" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </form>
         </div>
@@ -101,13 +101,18 @@
                     <span th:if="${product.prodDiscountPrice > 0}" th:text="|${#numbers.formatInteger(product.prodDiscountPrice,3,'COMMA')}원|">$40.00</span>
                     <span th:if="${product.prodDiscountPrice == 0}" th:text="|${#numbers.formatInteger(product.prodPrice,3,'COMMA')}원|">$40.00</span>
                 </div>
+                <form th:action="@{/prodDetail/sendProd/{prodId}/{memberId}(prodId=${product.prodId},memberId=${member.memberId})}" th:method="post" th:object="${product}">
                 <div class="d-flex">
-                    <input type="number" class="customForm-control me-3 text-center otline" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <input type="hidden" th:value="*{prodName}" th:field="*{prodName}">
+                    <input type="hidden" th:if="*{prodDiscountPrice > 0}" th:value="*{prodDiscountPrice}" id="prodPrice" name="prodPrice">
+                    <input type="hidden" th:if="*{prodDiscountPrice == 0}" th:value="*{prodPrice}" th:field="*{prodPrice}">
+                    <input type="number" class="customForm-control me-3 text-center outline" min="1" max="99" step="1" value="1" style="width: 100px" id="prodCnt" name="prodCnt"/>
+                    <button class="btn btn-outline-dark flex-shrink-0" type="submit" style="margin-left: 50px;">
                         <i class="bi-cart-fill me-1"></i>
                         장바구니에 담기
                     </button>
                 </div>
+            </form>
             </div>
         </div>
     </div>

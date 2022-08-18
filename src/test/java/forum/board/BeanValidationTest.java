@@ -52,7 +52,13 @@ public class BeanValidationTest {
 
         //then
 
+    }
 
-
+    @Test
+    void IntegerToInt()
+    {
+        Integer test = null;
+        int test2 = (int) test;
+        System.out.println(test2);
     }
 }

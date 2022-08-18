@@ -6,6 +6,7 @@ import forum.board.global.AuthConst;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
 import forum.board.service.ProductsService;
+import forum.board.service.cartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ import java.util.List;
 public class shopController {
 
     private final ProductsService productsService;
+    private final cartService cartService;
 
 
     //로그인 사용자 역할(Role)에 따라 각기 다른페이지 요청
@@ -53,6 +55,7 @@ public class shopController {
     public String getProdCategory(@PathVariable String category,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
     {
         List<Products> prodByCategory = productsService.findProdByCategory(category);
+        int cartCnt = 0;
             if (category.equals("normalProd")) {
                 if(member == null) {
                     model.addAttribute("products", prodByCategory);
@@ -62,6 +65,10 @@ public class shopController {
                     model.addAttribute("products", prodByCategory);
                     model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
                     model.addAttribute("member",member);
+                    if(cartService.getCartCnt(member.getMemberId()) != null) {
+                       cartCnt = (int)cartService.getCartCnt(member.getMemberId());
+                    }
+                    model.addAttribute("cartCnt",cartCnt);
                     return "shop/loginNormalProd";
                 }
             }
@@ -74,6 +81,10 @@ public class shopController {
                     model.addAttribute("products", prodByCategory);
                     model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
                     model.addAttribute("member",member);
+                    if(cartService.getCartCnt(member.getMemberId()) != null) {
+                        cartCnt = (int)cartService.getCartCnt(member.getMemberId());
+                    }
+                    model.addAttribute("cartCnt",cartCnt);
                     return "shop/loginDiscountProd";
                 }
             }
@@ -87,31 +98,35 @@ public class shopController {
     {
         Products findProd = productsService.findProdById(prodId);
         List<Products> relatedProdList = productsService.getRelatedProd(findProd.getProdCategory());
-
+        int cartCnt = 0;
         if(findProd.getProdCategory().equals("normalProd"))
         {
-            return getProdDetailURL(member, model, findProd, relatedProdList);
+            return getProdDetailURL(member, model, findProd, relatedProdList,cartCnt);
         }
         if(findProd.getProdCategory().equals("discountProd"))
         {
-            return getProdDetailURL(member, model, findProd, relatedProdList);
+            return getProdDetailURL(member, model, findProd, relatedProdList,cartCnt);
         }
         return "redirect:/";
     }
 
     // getProdDetail 메서드에 사용되는 메서드로, 코드중복적인 부분만 리팩터링해서 따로 추출한 메서드임
-    public String getProdDetailURL(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) loginMember member, Model model, Products findProd, List<Products> relatedProdList) {
+    public String getProdDetailURL(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) loginMember member, Model model, Products findProd, List<Products> relatedProdList, int prodCnt) {
         if(member != null)
         {
+            prodCnt = (int)cartService.getCartCnt(member.getMemberId());
             model.addAttribute("member",member);
             model.addAttribute("product",findProd);
             model.addAttribute("relatedProdList",relatedProdList);
             model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
+            model.addAttribute("cartCnt",prodCnt);
             return "shop/loginProdDetail";
         }else {
+
             model.addAttribute("product",findProd);
             model.addAttribute("relatedProdList",relatedProdList);
             model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
+            model.addAttribute("cartCnt",prodCnt);
             return "shop/prodDetail";
         }
     }

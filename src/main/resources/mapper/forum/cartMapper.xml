@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="forum.board.repository.mybatisMapper.cartMapper">
+
+<insert id="saveCartProd" >
+    insert into cart(member_id,prod_id,prod_name,prod_price,prod_cnt) values (#{memberId},#{prodId},#{form.prodName},#{form.prodPrice},#{form.prodCnt})
+</insert>
+
+<select id="findByMemberId" resultType="Cart">
+    select * from cart where member_id=#{memberId}
+</select>
+
+<update id="updateCartProd">
+    update cart set prod_cnt=#{updateQuantity} where prod_id=#{prodId} and member_id=#{memberId}
+</update>
+
+<delete id="deleteCartProd">
+    delete from cart where prod_id=#{prodId} and member_id=#{memberId}
+</delete>
+
+<select id="cartProdCount" resultType="Integer">
+    select count(*) from cart where member_id=#{memberId}
+</select>
+
+</mapper>

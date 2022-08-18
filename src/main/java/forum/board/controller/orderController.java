@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class orderController {
 
-    @GetMapping("/bgshop/order/{userName}")
-    public String getOrderForm(@PathVariable String userName)
+    @GetMapping("/bgshop/order/{memberId}")
+    public String getOrderForm(@PathVariable Long memberId)
     {
         return "shop/orderForm";
     }
