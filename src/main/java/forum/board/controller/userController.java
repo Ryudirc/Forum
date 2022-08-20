@@ -40,6 +40,8 @@ public class userController {
 
     private final MybatisProdFileRepository prodFileRepository;
 
+
+
     /**
      * 유저 마이페이지 기능 - 회원정보,주문정보,포인트충전
      */
@@ -50,25 +52,35 @@ public class userController {
     {
         if(member.getMemberName().equals(userName)) {
             model.addAttribute("member", member);
+            model.addAttribute("points",memberRepository.findById(member.getMemberId()).getPoints());
             return "shop/userMyPage";
         }
         return "redirect:/";
     }
 
-   /* // 회원이 주문한 상품정보를 테이블로 보여주는 페이지
+
+   // 회원이 주문한 상품정보를 테이블로 보여주는 페이지
     @GetMapping("profile/myPage/order/{userName}")
     public String getUserOrderListPage(@PathVariable String userName,Model model)
     {
 
+        return "shop/orderTable";
     }
+
+    //내 정보 수정 페이지
+    @GetMapping("profile/myPage/userInfo/{userName}")
+    public String getUserInfoPage(@PathVariable String userName)
+    {
+        return "shop/userInfo";
+    }
+
+
+
+
 
     // 회원 포인트 충전 페이지
-    @GetMapping("profile/myPage/point/{userName}")
-    public String getUserInfoPage(@PathVariable String userName,Model model)
-    {
 
-    }
-   */
+
 
     /**
      * 어드민 관리자 페이지 기능 - 상품 CRUD

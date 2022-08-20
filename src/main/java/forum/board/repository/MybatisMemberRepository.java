@@ -62,6 +62,11 @@ public class MybatisMemberRepository implements memberRepository {
     }
 
     @Override
+    public void updateConsumePoint(Long memberId, int minusPoint) {
+        memberMapper.updateConsumePoint(memberId,minusPoint);
+    }
+
+    @Override
     public void delete(Long memberId) {
         memberMapper.delete(memberId);
     }

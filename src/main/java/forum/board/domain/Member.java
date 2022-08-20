@@ -18,6 +18,7 @@ public class Member {
 
     private String Role; // 데이터베이스에 기본값이 USER 로 insert 되므로, 데이터베이스로부터 멤버 row 를 뽑아올때는 해당 역할을 가져와 매핑한다.
 
+    private int points;
 
     public Member() {}
 

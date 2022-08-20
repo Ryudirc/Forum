@@ -20,5 +20,7 @@ public interface cartMapper {
 
     Integer cartProdCount(Long memberId);
 
+    void deleteCartAll(Long memberId);
+
 
 }

@@ -1,7 +1,8 @@
-package forum.board.repository.mybatisMapper;
+package forum.board.repository;
 
 import forum.board.controller.DTO.cartSaveForm;
 import forum.board.domain.Cart;
+import forum.board.repository.mybatisMapper.cartMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -38,5 +39,7 @@ public class MybatisCartRepository {
    {
         return cartMapper.cartProdCount(memberId);
    }
+
+    public void deleteCartAll(Long memberId) { cartMapper.deleteCartAll(memberId);}
 
 }

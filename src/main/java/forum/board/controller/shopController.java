@@ -1,11 +1,13 @@
 package forum.board.controller;
 
+import forum.board.domain.Cart;
 import forum.board.domain.Products;
 import forum.board.domain.loginMember;
 import forum.board.global.AuthConst;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
 import forum.board.service.ProductsService;
+import forum.board.service.StockCheckService;
 import forum.board.service.cartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,9 @@ public class shopController {
 
     private final ProductsService productsService;
     private final cartService cartService;
+
+    private final StockCheckService stockCheckService;
+
 
 
     //로그인 사용자 역할(Role)에 따라 각기 다른페이지 요청
@@ -99,6 +103,7 @@ public class shopController {
         Products findProd = productsService.findProdById(prodId);
         List<Products> relatedProdList = productsService.getRelatedProd(findProd.getProdCategory());
         int cartCnt = 0;
+
         if(findProd.getProdCategory().equals("normalProd"))
         {
             return getProdDetailURL(member, model, findProd, relatedProdList,cartCnt);
@@ -112,9 +117,17 @@ public class shopController {
 
     // getProdDetail 메서드에 사용되는 메서드로, 코드중복적인 부분만 리팩터링해서 따로 추출한 메서드임
     public String getProdDetailURL(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) loginMember member, Model model, Products findProd, List<Products> relatedProdList, int prodCnt) {
+
+
         if(member != null)
         {
             prodCnt = (int)cartService.getCartCnt(member.getMemberId());
+            List<Cart> cartList = cartService.findProdByMemberId(member.getMemberId());
+            for (Cart cart : cartList) {
+                if(cart.getProdId() == findProd.getProdId()){
+                    model.addAttribute("message","이미 장바구니에 존재하는 상품입니다.");
+                }
+            }
             model.addAttribute("member",member);
             model.addAttribute("product",findProd);
             model.addAttribute("relatedProdList",relatedProdList);

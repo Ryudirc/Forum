@@ -2,7 +2,8 @@ package forum.board.service;
 
 import forum.board.controller.DTO.cartSaveForm;
 import forum.board.domain.Cart;
-import forum.board.repository.mybatisMapper.MybatisCartRepository;
+import forum.board.repository.MybatisProductsRepository;
+import forum.board.repository.MybatisCartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class cartService {
 
     private final MybatisCartRepository cartRepository;
+    private final MybatisProductsRepository productsRepository;
+
 
     //상품을 카트데이터베이스에 적재
     public void saveCartProd(Long prodId,Long memberId, cartSaveForm form)
@@ -50,10 +53,9 @@ public class cartService {
         cartRepository.deleteCartProd(prodId, memberId);
     }
 
+   public void deleteMyCartAll(Long memberId) { cartRepository.deleteCartAll(memberId);}
 
 
-
-    //장바구니에 존재하는 상품이 품절된 상품인지 아닌지를 검사하는 메서드
 
 
 

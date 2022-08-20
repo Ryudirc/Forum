@@ -16,6 +16,9 @@
         .mag-left2 {
             margin-left: 40px;
         }
+        .no-stock {
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +75,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr th:if="${isEmptyCart}">
+                        <td colspan="5" class="text-center">장바구니에 저장된 상품이 없습니다. </td>
+                    </tr>
                     <tr th:each="cart : ${cartList}">
                         <td>
                             <div class="row">
@@ -80,6 +86,8 @@
                                 </div>
                                 <div class="col-md-9 text-left mt-sm-2">
                                     <h4 th:text="*{cart.prodName}">Product Name</h4>
+                                    <p th:text="|현재 재고 : *{cart.stock}개|" class="font-weight-light">total quantity</p>
+                                    <p th:if="*{cart.stock == 0}" class="no-stock">해당상품의 재고가 없습니다. 장바구니에서 삭제해주세요.</p>
                                 </div>
                             </div>
                         </td>
@@ -117,7 +125,9 @@
         </div>
         <div class="row mt-4 d-flex align-items-center">
             <div class="col-sm-6 order-md-2 text-right">
-                <a href="catalog.html" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">주문하기</a>
+                <form th:action="@{/bgshop/sendCart/{memberId}(memberId=${member.memberId})}" th:method="post">
+                <button th:onclick="stockCheck()" type="submit" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">주문하기</button>
+                </form>
             </div>
             <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
                 <a th:href="@{/}">
@@ -132,5 +142,23 @@
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function stockCheck() {
+        var isSoldOut = [[${isSoldOut}]];
+        var isMoreThanStock = [[${isMoreThanStock}]];
+        var isEmptyCart = [[${isEmptyCart}]];
+        if (isSoldOut) {
+            alert("품절되어 구매가 불가능한 상품이 존재합니다.");
+        }else if(isMoreThanStock) {
+            alert("선택하신 수량보다 재고가 적은 상품이 존재합니다.");
+        }else if(isEmptyCart) {
+            alert("장바구니에 상품이 없습니다.");
+        }
+    }
+
+    /*]]>*/
+
+</script>
 </body>
 </html>

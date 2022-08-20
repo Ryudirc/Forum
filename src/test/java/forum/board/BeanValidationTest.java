@@ -11,6 +11,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
@@ -60,5 +62,44 @@ public class BeanValidationTest {
         Integer test = null;
         int test2 = (int) test;
         System.out.println(test2);
+    }
+
+    @Test
+    void IfTest()
+    {
+        int num=1;
+        int num2=1;
+        int result = 0;
+
+        if(num <= num2)
+        {
+            result = 10;
+        }
+
+        System.out.println("result = " + result);
+
+    }
+
+
+    @Test
+    void variableTest()
+    {
+        List<Integer> integerList = new ArrayList<>();
+
+        Integer numA = 10;
+        Integer numB = 20;
+        Integer numC = 30;
+
+        integerList.add(numA);
+        integerList.add(numB);
+        integerList.add(numC);
+
+        Integer sum = 0;
+        for (Integer integer : integerList) {
+            sum += integer.intValue();
+        }
+
+        System.out.println("sum = " + sum);
+
     }
 }

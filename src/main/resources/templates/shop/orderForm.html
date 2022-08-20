@@ -62,21 +62,21 @@
 
         <div class="col-md-8 order-md-1 form-pos">
             <h4 class="mb-3">배송지 정보</h4>
-            <form>
+            <form th:action th:method="post">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="firstName">성명</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                        <label for="memberRealName">성명</label>
+                        <input type="text" class="form-control" id="memberRealName" name="memberRealName" placeholder="" value="" required="">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="lastName">연락처</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                        <label for="memberPhone">연락처</label>
+                        <input type="text" class="form-control" id="memberPhone" name="memberPhone" placeholder="" value="" required="">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="delivery">배송 시 요청사항<span class="text-muted">(선택사항)</span></label>
-                 <input type="text" class="form-control" id="delivery" placeholder="배송시 요청사항을 선택하거나 입력해주세요." list="datalistOptions">
+                    <label for="deliveryRequirements">배송 시 요청사항<span class="text-muted">(선택사항)</span></label>
+                 <input type="text" class="form-control" id="deliveryRequirements" name="deliveryRequirements" placeholder="배송시 요청사항을 선택하거나 입력해주세요." list="datalistOptions">
                     <datalist id="datalistOptions">
                         <option value="배송 전 연락 부탁드립니다.">
                         <option value="부재 시 경비실에 맡기고 연락 부탁드립니다.">
@@ -91,9 +91,9 @@
                     <label for="postcode">주소입력</label><br>
                     <input type="text" id="postcode" placeholder="우편번호" class=" form-control zip">
                     <input type="button" onclick="DaumPostcode()" value="우편번호 찾기" class="btn btn-primary"><br>
-                    <input type="text" id="address" placeholder="주소" class="form-control addr" disabled><br>
-                    <input type="text" id="detailAddress" placeholder="상세주소" class="form-control addrDetail">
-                    <input type="text" id="extraAddress" placeholder="참고항목" class="form-control addrRefer">
+                    <input type="text" id="address" name="address" placeholder="주소" class="form-control addr"><br>
+                    <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" class="form-control addrDetail">
+                    <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" class="form-control addrRefer">
                 </div>
                 <hr class="mb-4">
                 <h4 class="mb-3">선택한 상품 정보</h4>
@@ -102,19 +102,19 @@
                     <tr>
                         <th>상품이름</th>
                         <th>수량</th>
-                        <th>가격</th>
+                        <th>단일가격</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>상품이름text</td>
-                        <td>수량int</td>
-                        <td>상품단일가격</td>
+                    <tr th:each="cart : ${cartList}">
+                        <td th:text="*{cart.prodName}">상품이름</td>
+                        <td th:text="*{cart.prodCnt}">수량</td>
+                        <td th:text="|${#numbers.formatInteger(cart.prodPrice,3,'COMMA')}원|">상품단일가격</td>
                     </tr>
                     </tbody>
                 </table>
-                <h3 class="totalPrice">총 가격 :</h3>
-                <p class="totalPrice" style="font-size: 25px">10원</p>
+                <h3 class="totalPrice">총 가격 : </h3>
+                <p class="totalPrice" style="font-size: 25px" id="totalPrice" name="totalPrice" th:text="|${#numbers.formatInteger(totalPrice,3,'COMMA')}원|">10원</p>
                 <hr class="mb-4">
                 <h4 class="mb-3">결제 정보</h4>
                 <div class="d-block my-3">
@@ -126,11 +126,11 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cc-name">보유중인 포인트</label>
-                        <input type="text" class="form-control" id="cc-name" value="1000" required="" disabled>
+                        <input type="text" class="form-control" id="cc-name" th:value="${#numbers.formatInteger(ownPoint,3,'COMMA')}" required="" disabled>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number">차감 후 포인트</label>
-                        <input type="text" class="form-control" id="cc-number" value="400" required="" disabled>
+                        <input type="text" class="form-control" id="cc-number" th:value="${#numbers.formatInteger(consumePoint,3,'COMMA')}" required="" disabled>
                     </div>
                 </div>
                 <hr class="mb-4">

@@ -23,4 +23,9 @@
     select count(*) from cart where member_id=#{memberId}
 </select>
 
+<delete id="deleteCartAll">
+    delete from cart where member_id=#{memberId}
+</delete>
+
+
 </mapper>

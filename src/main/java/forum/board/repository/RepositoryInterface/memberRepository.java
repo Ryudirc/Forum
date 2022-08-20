@@ -20,6 +20,8 @@ public interface memberRepository {
     void update(Long memberId, Member updateMember);
 
     void updateRole(Long memberId, String role);
+
+    void updateConsumePoint(Long memberId, int minusPoint);
     void delete(Long memberId);
     List<Member> findAll();
 

@@ -14,6 +14,10 @@
         update member set Role=#{role} where member_id=#{id}
     </update>
 
+    <update id="updateConsumePoint">
+        update member set points=points - #{minusPoint} where member_id=#{memberId}
+    </update>
+
     <select id="findById" resultType="Member">
         select * from member where member_id=#{id}
     </select>
@@ -43,10 +47,6 @@
     <delete id="delete">
         delete from member where member_id=#{id}
     </delete>
-
-
-
-
 
 
 </mapper>

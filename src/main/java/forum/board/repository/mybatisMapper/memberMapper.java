@@ -17,6 +17,8 @@ public interface memberMapper {
 
     void updateRole(@Param("id") Long id, @Param("role") String role);
 
+    void updateConsumePoint(@Param("memberId")Long memberId, @Param("minusPoint")int minusPoint);
+
     String findByLoginId(String id);
 
     String findByName(String name);

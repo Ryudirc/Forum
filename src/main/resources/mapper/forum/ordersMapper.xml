@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="forum.board.repository.mybatisMapper.ordersMapper">
+
+    <insert id="saveOrder" useGeneratedKeys="true" keyProperty="orderId">
+        insert into orders(member_id,member_real_name,member_phone,delivery_requirements,member_address) values (#{memberId},#{memberRealName},#{memberPhone},#{deliveryRequirements},#{memberAddress})
+    </insert>
+
+    <insert id="saveOrderList" useGeneratedKeys="true" keyProperty="listId">
+        insert into order_list(order_id,prod_name,prod_cnt,prod_price) values <foreach collection="list" item="orderList" separator=",">
+        (#{orderList.orderId},#{orderList.prodName},#{orderList.prodCnt},#{orderList.prodPrice})
+    </foreach>
+    </insert>
+
+
+</mapper>
