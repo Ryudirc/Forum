@@ -1,6 +1,8 @@
 package forum.board.service;
 
+import forum.board.controller.DTO.orderStock;
 import forum.board.controller.DTO.prodSaveForm;
+import forum.board.domain.Cart;
 import forum.board.domain.Products;
 import forum.board.domain.UploadProdFile;
 import forum.board.global.FileStore;
@@ -89,5 +91,9 @@ public class ProductsService {
         return productsRepository.findRelatedProdByCategory(category);
     }
 
+    public void updateStock(List<orderStock> orderStockList)
+    {
+        productsRepository.updateStock(orderStockList);
+    }
 
 }

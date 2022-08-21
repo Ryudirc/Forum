@@ -10,6 +10,12 @@
         update products set prod_category=#{prodSaveForm.prodCategory}, prod_name=#{prodSaveForm.prodName}, prod_stock=#{prodSaveForm.prodStock}, prod_price=#{prodSaveForm.prodPrice}, prod_discount_price=#{prodSaveForm.prodDiscountPrice} where prod_id=#{id}
     </update>
 
+    <update id="updateStock" parameterType="java.util.List">
+        <foreach collection="list" separator=";" item="orderStock" close=";">
+            update products set prod_stock=prod_stock - #{orderStock.prodCnt} where prod_id=#{orderStock.prodId}
+        </foreach>
+    </update>
+
     <delete id="deleteProd">
         delete from products where prod_id=#{id}
     </delete>

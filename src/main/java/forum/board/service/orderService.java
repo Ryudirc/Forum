@@ -1,6 +1,7 @@
 package forum.board.service;
 
 import forum.board.controller.DTO.orderSaveForm;
+import forum.board.controller.DTO.orderStock;
 import forum.board.controller.DTO.viewOrderForm;
 import forum.board.domain.Cart;
 import forum.board.domain.orders;
@@ -23,6 +24,8 @@ public class orderService {
 
     private final cartService cartService;
 
+    private final ProductsService productsService;
+
     public int showMemberPoint(Long memberId)
     {
         return memberRepository.findById(memberId).getPoints();
@@ -33,6 +36,7 @@ public class orderService {
         //기본값 세팅
         List<Cart> cartList = cartService.findProdByMemberId(memberId);
         List<orderList> orderList = new ArrayList<>();
+        List<orderStock> orderStockList = new ArrayList<>();
         int totalPrice = 0;
         String memAddress = form.getAddress() + form.getExtraAddress() + form.getDetailAddress();
 
@@ -44,7 +48,13 @@ public class orderService {
         // 장바구니에서 주문한 상품으로 객체 convert
         for (Cart cart : cartList) {
             orderList.add(new orderList(orders.getOrderId(),cart.getProdName(),cart.getProdCnt(),cart.getProdPrice()));
+            orderStockList.add(new orderStock(cart.getProdCnt(),cart.getProdId()));
             totalPrice += cart.getProdPrice() * cart.getProdCnt();
+        }
+
+        //orderStock 에 제대로된 값이 적재되었는지 확인
+        for (orderStock orderStock : orderStockList) {
+            System.out.println("orderStock = " + orderStock);
         }
 
 
@@ -53,6 +63,9 @@ public class orderService {
 
         // 주문금액만큼 포인트 절감
         memberRepository.updateConsumePoint(memberId,totalPrice);
+
+        // 주문 수량만큼 재고 절감
+        productsService.updateStock(orderStockList);
 
         // 내 장바구니 목록 삭제
         cartService.deleteMyCartAll(memberId);
