@@ -14,6 +14,8 @@ public class orders {
     private String deliveryRequirements;
     private String memberAddress;
 
+    private String orderStatus;
+
     public orders() {}
 
     public orders(Long memberId, String memberRealName, String memberPhone, String deliveryRequirements, String memberAddress) {

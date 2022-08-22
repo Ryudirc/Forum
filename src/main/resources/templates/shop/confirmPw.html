@@ -11,6 +11,39 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link th:href="@{/../shop/css/styles.css}" rel="stylesheet" />
 </head>
+<style>
+    .flex-container{
+        width: 100%;
+        height: 100vh;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center; /* 수직 정렬 */
+
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center; /* 수평 정렬 */
+    }
+
+    .form-width {
+        width: 510px;
+    }
+
+    .confirm-pos {
+        margin: 400px 600px;
+    }
+
+    .btn-pos {
+        margin-right: 150px;
+        margin-left: 210px;
+    }
+</style>
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
@@ -18,8 +51,8 @@
         <div class="sidebar-heading border-bottom bg-light">메뉴</div>
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/forum/freeBoard/}">자유게시판</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/userConfirm/{userName}(userName=${member.getMemberName()})}">내 정보</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/order/{userName}(userName=${member.getMemberName()})}">주문내역</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/userInfo/{userName}(userName=${memberName})}">내 정보</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">주문내역</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">포인트 충전</a>
         </div>
     </div>
@@ -39,9 +72,17 @@
         </nav>
         <!-- Page content-->
         <div class="container-fluid">
-            <h1 class="mt-4" th:text="|${member.memberName}님의 마이페이지|">Simple Sidebar</h1>
-            <p>안녕하세요! 오늘도 즐거운 하루 되시길 바랍니다! </p>
-            <p th:text="|현재 소지중이신 포인트는 ${#numbers.formatInteger(points,3,'COMMA')}P 입니다.| "></p>
+            <div class="col-md-5 confirm-pos">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-center">개인정보 확인을 위해 비밀번호를 입력해주세요.</h4>
+            </div>
+            <form th:action="@{/profile/myPage/userConfirm/{userName}(userName=${memberName})}" th:method="post">
+            <div class="row mt-3">
+                <div class="col-md-6"><input type="password" class="form-control form-width" value="" id="memberPw" name="memberPw" ></div>
+            </div>
+                <br><br>
+                <button class="btn btn-primary btn-pos" type="submit">확인</button>
+            </form>
         </div>
     </div>
 </div>

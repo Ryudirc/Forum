@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>myPage</title>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" th:href="@{/../freeboard/assets/favicon.ico}" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link th:href="@{/../shop/css/styles.css}" rel="stylesheet" />
+  <style>
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">메뉴</div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/forum/freeBoard/}">자유게시판</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/userConfirm/{userName}(userName=${memberInfo.memberName})}">내 정보</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/order/{userName}(userName=${memberInfo.memberName})}">주문내역</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">포인트 충전</a>
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <!-- Top navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <div class="container-fluid">
+        <button class="btn btn-primary" id="sidebarToggle">메뉴보기</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+            <li class="nav-item active"><a class="nav-link" th:href="@{/}">쇼핑몰 홈페이지</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Page content-->
+    <div class="container-fluid">
+      <div class="col-md-3 border-right" style="margin: auto;">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="margin: auto;"><img class="rounded-circle mt-5" width="150px" src="https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"><span class="font-weight-bold" th:text="${memberInfo.getMemberName()}">UserName</span><span class="text-black-50" th:text="${memberInfo.getMemberEmail()}">user@email.com.my</span><span> </span></div>
+      </div>
+      <form th:action="@{/profile/myPage/userEdit/{userName}(userName=${memberInfo.getMemberName()})}" th:method="post" th:object="${memberUpdateForm}">
+      <div class="col-md-5 border-right" style="margin: auto;">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">내 정보 변경</h4>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label class="labels">닉네임</label>
+              <input type="text" class="form-control" th:field="*{memberName}" placeholder="변경하고싶은 닉네임을 입력하세요." th:value="${memberInfo.getMemberName()}">
+              <div class="field-error" th:errors="*{memberName}">닉네임 오류</div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12"><label class="labels">이메일</label><input type="email" class="form-control" th:field="*{memberEmail}" placeholder="변경할 이메일을 입력하세요" th:value="${memberInfo.getMemberEmail()}">
+              <div class="field-error" th:errors="*{memberEmail}">성명 오류</div></div>
+            <div class="col-md-12"><label class="labels">권한</label><input type="text" class="form-control" placeholder="Role" th:value="${memberInfo.getRole()}" disabled></div>
+          </div>
+          <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">정보 변경</button></div>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script th:src="@{/../shop/js/scripts.js}"></script>
+</body>
+</html>

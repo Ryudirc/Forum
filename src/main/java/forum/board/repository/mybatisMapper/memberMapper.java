@@ -1,5 +1,6 @@
 package forum.board.repository.mybatisMapper;
 
+import forum.board.controller.DTO.memberUpdateForm;
 import forum.board.domain.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,8 @@ public interface memberMapper {
 
     Member findByLoginInfo(@Param("loginId")String loginId,@Param("loginPw")String loginPw);
     void update(@Param("id")Long memberId, @Param("updateMember") Member updateMember);
+
+    void updateByUser(@Param("memberId")Long memberId,@Param("memberUpdate") memberUpdateForm memberUpdateForm);
 
     void updateRole(@Param("id") Long id, @Param("role") String role);
 

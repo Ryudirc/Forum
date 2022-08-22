@@ -1,6 +1,5 @@
 package forum.board.repository.mybatisMapper;
 
-import forum.board.controller.DTO.orderStock;
 import forum.board.controller.DTO.prodSaveForm;
 import forum.board.domain.Cart;
 import forum.board.domain.Products;
@@ -16,7 +15,7 @@ public interface productsMapper {
 
     void updateProd(@Param("id") Long prodId, @Param("prodSaveForm") prodSaveForm form);
 
-    void updateStock(List<orderStock> orderStockList);
+    void updateStock(List<Cart> cartList);
 
     void deleteProd(Long prodId);
 

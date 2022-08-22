@@ -49,6 +49,10 @@
         .totalPrice {
             display: inline;
         }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -62,21 +66,24 @@
 
         <div class="col-md-8 order-md-1 form-pos">
             <h4 class="mb-3">배송지 정보</h4>
-            <form th:action th:method="post">
+            <form th:action th:method="post" th:object="${orderSaveForm}">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="memberRealName">성명</label>
-                        <input type="text" class="form-control" id="memberRealName" name="memberRealName" placeholder="" value="" required="">
+                        <input type="text" class="form-control" id="memberRealName" th:field="*{memberRealName}" placeholder="홍길동" required="">
+                        <div class="field-error" th:errors="*{memberRealName}">성명 오류</div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="memberPhone">연락처</label>
-                        <input type="text" class="form-control" id="memberPhone" name="memberPhone" placeholder="" value="" required="">
+                        <input type="text" class="form-control" id="memberPhone" th:field="*{memberPhone}" placeholder="010-0000-0000" required="">
+                        <div class="field-error" th:errors="*{memberPhone}">연락처 오류</div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="deliveryRequirements">배송 시 요청사항<span class="text-muted">(선택사항)</span></label>
-                 <input type="text" class="form-control" id="deliveryRequirements" name="deliveryRequirements" placeholder="배송시 요청사항을 선택하거나 입력해주세요." list="datalistOptions">
+                 <input type="text" class="form-control" id="deliveryRequirements" th:field="*{deliveryRequirements}" placeholder="배송시 요청사항을 선택하거나 입력해주세요." list="datalistOptions">
+                    <div class="field-error" th:errors="*{deliveryRequirements}">이름입력 오류</div>
                     <datalist id="datalistOptions">
                         <option value="배송 전 연락 부탁드립니다.">
                         <option value="부재 시 경비실에 맡기고 연락 부탁드립니다.">
@@ -95,6 +102,9 @@
                     <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" class="form-control addrDetail">
                     <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" class="form-control addrRefer">
                 </div>
+                <div class="field-error" th:if="${#fields.hasGlobalErrors()}">
+                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+                </div>
                 <hr class="mb-4">
                 <h4 class="mb-3">선택한 상품 정보</h4>
                 <table class="table text-center">
@@ -107,8 +117,8 @@
                     </thead>
                     <tbody>
                     <tr th:each="cart : ${cartList}">
-                        <td th:text="*{cart.prodName}">상품이름</td>
-                        <td th:text="*{cart.prodCnt}">수량</td>
+                        <td th:text="${cart.prodName}">상품이름</td>
+                        <td th:text="${cart.prodCnt}">수량</td>
                         <td th:text="|${#numbers.formatInteger(cart.prodPrice,3,'COMMA')}원|">상품단일가격</td>
                     </tr>
                     </tbody>
@@ -125,8 +135,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="cc-name">보유중인 포인트</label>
-                        <input type="text" class="form-control" id="cc-name" th:value="${#numbers.formatInteger(ownPoint,3,'COMMA')}" required="" disabled>
+                        <label for="ownPoint">보유중인 포인트</label>
+                        <input type="text" class="form-control" id="ownPoint" name="ownPoint" th:value="${#numbers.formatInteger(ownPoint,3,'COMMA')}" required="" disabled>
+                        <div class="field-error" th:errors="*{ownPoint}">포인트 오류</div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number">차감 후 포인트</label>
@@ -138,6 +149,7 @@
             </form>
         </div>
     </div>
+    <a th:href="@{/bgshop/prodCart/{memberId}(memberId=${memberId})}">장바구니 바로가기</a>
     <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">© 2017-2019 Company Name</p>
         <ul class="list-inline">

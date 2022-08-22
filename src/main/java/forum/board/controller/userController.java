@@ -1,13 +1,18 @@
 package forum.board.controller;
 
+import forum.board.controller.DTO.memberUpdateForm;
+import forum.board.controller.DTO.orderHistory;
+import forum.board.controller.DTO.orderProd;
 import forum.board.controller.DTO.prodSaveForm;
 import forum.board.domain.Member;
 import forum.board.domain.Products;
 import forum.board.domain.loginMember;
 import forum.board.global.SessionConst;
+import forum.board.global.SessionManager;
 import forum.board.repository.MybatisMemberRepository;
 import forum.board.repository.MybatisProdFileRepository;
 import forum.board.service.ProductsService;
+import forum.board.service.orderService;
 import forum.board.validation.ProdValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -17,9 +22,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,10 +45,13 @@ public class userController {
     private final ProdValidator prodValidator;
 
     private final ProductsService productsService;
+
+    private final orderService orderService;
     private final MybatisMemberRepository memberRepository;
 
     private final MybatisProdFileRepository prodFileRepository;
 
+    private final SessionManager sessionManager;
 
 
     /**
@@ -61,17 +73,86 @@ public class userController {
 
    // 회원이 주문한 상품정보를 테이블로 보여주는 페이지
     @GetMapping("profile/myPage/order/{userName}")
-    public String getUserOrderListPage(@PathVariable String userName,Model model)
+    public String getUserOrderListPage(@PathVariable String userName,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
     {
+        int seq=0;
+        if(member.getMemberName().equals(userName)) {
 
-        return "shop/orderTable";
+          List<orderHistory> orderHistoryList = orderService.getOrderHistory(member.getMemberId());
+              for (orderHistory orderHistory : orderHistoryList) {
+                  orderHistory.setModalSequence(++seq);
+              }
+            model.addAttribute("orderHistoryList",orderHistoryList);
+            model.addAttribute("member",member);
+            return "shop/userOrderHistory";
+        }
+
+        return "redirect:/";
     }
 
-    //내 정보 수정 페이지
-    @GetMapping("profile/myPage/userInfo/{userName}")
-    public String getUserInfoPage(@PathVariable String userName)
+    //내 정보페이지 불러오기
+    @GetMapping("profile/myPage/userConfirm/{userName}")
+    public String getUserConfirmPage(@PathVariable String userName,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
     {
-        return "shop/userInfo";
+        if(member.getMemberName().equals(userName)) {
+            model.addAttribute("memberName",member.getMemberName());
+            return "shop/confirmPw";
+        }
+
+        return "redirect:/";
+    }
+
+    @PostMapping("profile/myPage/userConfirm/{userName}")
+    public String confirmUser(@PathVariable String userName, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member, HttpServletRequest request)
+    {
+        if(member.getMemberName().equals(userName)) {
+            String memberPw = request.getParameter("memberPw");
+            if (memberRepository.findById(member.getMemberId()).getMemberPw().equals(memberPw)) {
+
+                return "redirect:/profile/myPage/userInfo/{userName}";
+            }
+        }
+      return "redirect:/";
+    }
+
+
+
+
+    @GetMapping("profile/myPage/userInfo/{userName}")
+    public String getUserInfoPage(@PathVariable String userName,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
+    {
+        if(member.getMemberName().equals(userName)) {
+
+            model.addAttribute("memberInfo",memberRepository.findById(member.getMemberId()));
+            model.addAttribute("memberUpdateForm",new memberUpdateForm());
+
+            return "shop/userProfile";
+        }
+        return "redirect:/";
+    }
+
+    //내 정보 수정하기
+    @PostMapping("profile/myPage/userEdit/{userName}")
+    public String updateMemberInfo(@PathVariable String userName, @Validated memberUpdateForm memberUpdateForm,BindingResult bindingResult, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member, HttpServletRequest request,Model model)
+    {
+        if(bindingResult.hasErrors())
+        {
+            model.addAttribute("memberInfo",memberRepository.findById(member.getMemberId()));
+            return "shop/userProfile";
+        }
+
+        if(member.getMemberName().equals(userName)) {
+            //멤버 정보 변경 로직
+            memberRepository.updateByUser(member.getMemberId(),memberUpdateForm);
+
+            //세션값 변경
+            sessionManager.changeSessionMemberName(request,memberUpdateForm);
+
+            model.addAttribute("memberInfo",memberRepository.findById(member.getMemberId()));
+            return "shop/userProfile";
+        }
+
+        return "redirect:/";
     }
 
 
@@ -79,6 +160,7 @@ public class userController {
 
 
     // 회원 포인트 충전 페이지
+
 
 
 

@@ -1,6 +1,5 @@
 package forum.board.repository;
 
-import forum.board.controller.DTO.orderStock;
 import forum.board.controller.DTO.prodSaveForm;
 import forum.board.domain.Cart;
 import forum.board.domain.Products;
@@ -8,7 +7,6 @@ import forum.board.repository.mybatisMapper.productsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Calendar;
 import java.util.List;
 
 @Repository
@@ -27,7 +25,7 @@ public class MybatisProductsRepository {
         productsMapper.updateProd(prodId,form);
     }
 
-    public void updateStock(List<orderStock> orderStockList) { productsMapper.updateStock(orderStockList);}
+    public void updateStock(List<Cart> cartList) { productsMapper.updateStock(cartList);}
 
     public void deleteProd(Long prodId)
     {

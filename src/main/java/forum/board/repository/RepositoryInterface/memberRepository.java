@@ -1,5 +1,6 @@
 package forum.board.repository.RepositoryInterface;
 
+import forum.board.controller.DTO.memberUpdateForm;
 import forum.board.domain.Member;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface memberRepository {
     String findByEmail(String email);
 
     void update(Long memberId, Member updateMember);
+
+    void updateByUser(Long memberId, memberUpdateForm memberUpdateForm);
 
     void updateRole(Long memberId, String role);
 

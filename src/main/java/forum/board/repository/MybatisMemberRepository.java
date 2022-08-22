@@ -1,5 +1,6 @@
 package forum.board.repository;
 
+import forum.board.controller.DTO.memberUpdateForm;
 import forum.board.domain.Member;
 import forum.board.repository.RepositoryInterface.memberRepository;
 import forum.board.repository.mybatisMapper.memberMapper;
@@ -53,6 +54,12 @@ public class MybatisMemberRepository implements memberRepository {
     @Override
     public void update(Long memberId, Member updateMember) {
         memberMapper.update(memberId,updateMember);
+    }
+
+    @Override
+    public void updateByUser(Long memberId, memberUpdateForm memberUpdateForm) {
+        memberMapper.updateByUser(memberId,memberUpdateForm);
+
     }
 
     @Override

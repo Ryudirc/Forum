@@ -1,8 +1,8 @@
 package forum.board.service;
 
+import forum.board.controller.DTO.orderHistory;
+import forum.board.controller.DTO.orderProd;
 import forum.board.controller.DTO.orderSaveForm;
-import forum.board.controller.DTO.orderStock;
-import forum.board.controller.DTO.viewOrderForm;
 import forum.board.domain.Cart;
 import forum.board.domain.orders;
 import forum.board.domain.orderList;
@@ -36,7 +36,6 @@ public class orderService {
         //기본값 세팅
         List<Cart> cartList = cartService.findProdByMemberId(memberId);
         List<orderList> orderList = new ArrayList<>();
-        List<orderStock> orderStockList = new ArrayList<>();
         int totalPrice = 0;
         String memAddress = form.getAddress() + form.getExtraAddress() + form.getDetailAddress();
 
@@ -48,13 +47,8 @@ public class orderService {
         // 장바구니에서 주문한 상품으로 객체 convert
         for (Cart cart : cartList) {
             orderList.add(new orderList(orders.getOrderId(),cart.getProdName(),cart.getProdCnt(),cart.getProdPrice()));
-            orderStockList.add(new orderStock(cart.getProdCnt(),cart.getProdId()));
             totalPrice += cart.getProdPrice() * cart.getProdCnt();
-        }
 
-        //orderStock 에 제대로된 값이 적재되었는지 확인
-        for (orderStock orderStock : orderStockList) {
-            System.out.println("orderStock = " + orderStock);
         }
 
 
@@ -65,18 +59,33 @@ public class orderService {
         memberRepository.updateConsumePoint(memberId,totalPrice);
 
         // 주문 수량만큼 재고 절감
-        productsService.updateStock(orderStockList);
+        productsService.updateStock(cartList);
 
         // 내 장바구니 목록 삭제
         cartService.deleteMyCartAll(memberId);
 
     }
 
+
     //마이페이지 - 주문내역 상품 불러오기 메서드
-   /*public List<viewOrderForm> getViewOrderList(Long memberId)
-    {
-        return ordersRepository.findById(memberId);
-    }*/
+   public List<orderHistory> getOrderHistory(Long memberId)
+   {
+        int totalPrice = 0;
+       List<orderHistory> orderHistoryList = ordersRepository.getOrderHistoryByMemberId(memberId);
+
+       for (orderHistory  orderHistory: orderHistoryList) {
+               orderHistory.setOrderProdList(ordersRepository.getOrderProd(memberId, orderHistory.getOrderId()));
+           for (orderProd orderProd : orderHistory.getOrderProdList()) {
+                totalPrice += orderProd.getProdPrice() * orderProd.getProdCnt();
+                orderProd.setCalcPrice(orderProd.getProdPrice() * orderProd.getProdCnt());
+           }
+           orderHistory.setTotalPrice(totalPrice);
+           totalPrice = 0;
+       }
+
+       return orderHistoryList;
+   }
+
 
 
 }
