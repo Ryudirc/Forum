@@ -8,6 +8,7 @@ import forum.board.domain.loginMember;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
 import forum.board.global.cartConvert;
+import forum.board.repository.MybatisMemberRepository;
 import forum.board.service.StockCheckService;
 import forum.board.service.cartService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class cartController {
     private final cartConvert cartConvert;
 
     private final StockCheckService stockCheckService;
+    private final MybatisMemberRepository memberRepository;
 
 
     //장바구니 담기 선택시 동작하는 컨트롤러
@@ -79,7 +81,7 @@ public class cartController {
             System.out.println("isSoldOut 값은 = " + isSoldOut);
             System.out.println("isMoreThanStock 값은 = " + isMoreThanStock);
 
-            model.addAttribute("member", member);
+            model.addAttribute("member", memberRepository.findById(memberId));
             model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
             model.addAttribute("cartList", cartInfoList);
             model.addAttribute("totalPrice", totalPrice);

@@ -57,6 +57,11 @@ public class MybatisMemberRepository implements memberRepository {
     }
 
     @Override
+    public void updatePoints(Long memberId, Member member) {
+        memberMapper.updatePoints(memberId,member);
+    }
+
+    @Override
     public void updateByUser(Long memberId, memberUpdateForm memberUpdateForm) {
         memberMapper.updateByUser(memberId,memberUpdateForm);
 

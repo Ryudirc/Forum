@@ -12,12 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Core theme CSS (includes Bootstrap)-->
     <link th:href="@{/freeboard/css/styles.css}" rel="stylesheet">
-    <style>
-        .mg {
-            margin-left: 2px;
-            margin-right: 50px;
-        }
-    </style>
 </head>
 <body>
 <!-- Navigation-->
@@ -40,18 +34,22 @@
                     </ul>
                 </li>
             </ul>
-            <div th:object="${member}">
-            <ul class="navbar-nav mb-2 mg">
-                <a th:href="@{/profile/{memberName}(memberName=${member.getMemberName()})}"><li class="nav-item" th:text="|*{memberName}님, 환영합니다.|"></li></a>
-            </ul>
-            </div>
-            <form th:action="@{/bgshop/logout}" th:method="post">
-            <ul class="navbar-nav mb-2 mg">
-                <li class="nav-item"><button type="submit">로그아웃</button></li>
-            </ul>
+            <form class="d-flex">
+                <button class="btn btn-outline-dark" type="button" th:onclick="|location.href='@{/profile/{memberName}(memberName=${member.getMemberName()})}'|">
+                    <span th:text="|${member.getMemberName()}님, 환영합니다.|"></span>
+                </button>
+            </form>
+            <form class="d-flex" th:action="@{/bgshop/logout}" th:method="post">
+                <button class="btn btn-outline-dark" type="submit">
+                    로그아웃
+                </button>
             </form>
             <form class="d-flex">
-
+                <button class="btn btn-outline-dark" type="button" th:text="|${#numbers.formatInteger(member.points,3,'COMMA')}&#8361;|">
+                    2,000,000 &#8361;
+                </button>
+            </form>
+            <form class="d-flex">
                 <button class="btn btn-outline-dark" type="button" th:onclick="|location.href='@{/bgshop/prodCart/{memberId}(memberId=${member.memberId})}'|">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
@@ -110,6 +108,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script th:src="@{/freeboad/js/scripts.js}"></script>
-
 </body>
 </html>

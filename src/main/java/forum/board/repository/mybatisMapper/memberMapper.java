@@ -16,6 +16,8 @@ public interface memberMapper {
     Member findByLoginInfo(@Param("loginId")String loginId,@Param("loginPw")String loginPw);
     void update(@Param("id")Long memberId, @Param("updateMember") Member updateMember);
 
+    void updatePoints(@Param("id")Long memberId, @Param("member")Member member);
+
     void updateByUser(@Param("memberId")Long memberId,@Param("memberUpdate") memberUpdateForm memberUpdateForm);
 
     void updateRole(@Param("id") Long id, @Param("role") String role);

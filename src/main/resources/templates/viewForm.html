@@ -58,6 +58,22 @@
            margin-right: 50px;
        }
 
+       #footer
+       {
+           clear: both;
+           border: 1px groove #aaaaaa;
+           background: blue;
+           color: White;
+           padding: 0;
+           text-align: center;
+           vertical-align: middle;
+           line-height: normal;
+           margin: 0;
+           position: fixed;
+           bottom: 0px;
+           width: 100%;
+       }
+
     </style>
     <script src="https://kit.fontawesome.com/f16c739b14.js" crossorigin="anonymous"></script>
 </head>
@@ -122,17 +138,22 @@
                     </th:block>
                     <p th:if="${item.getAttachFiles().isEmpty()}" th:text="|첨부된 파일이 없습니다.|"></p>
                 <hr>
-                <p th:utext="${item.content}"></p>
-
+                <p th:utext="${item.content}"></p><br><br><br><br>
+                <hr>
             </div>
         </div>
     </div>
-    <div class="btn-pos">
+    <!--<div class="btn-pos">
     <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/forum/freeBoard/editForm/{itemId}(itemId=${item.itemId})}'|">게시글 수정</button>
     <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/forum/freeBoard/viewForm/delete/{itemId}(itemId=${item.itemId})}'|">게시글 삭제</button>
     <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/forum/freeBoard}'|">목록으로</button>
-    </div>
+    </div>-->
 </article>
+    </div>
+    <div class="btn-pos">
+        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/forum/freeBoard/editForm/{itemId}(itemId=${item.itemId})}'|">게시글 수정</button>
+        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/forum/freeBoard/viewForm/delete/{itemId}(itemId=${item.itemId})}'|">게시글 삭제</button>
+        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/forum/freeBoard}'|">목록으로</button>
     </div>
 <!-- Footer-->
 <footer id="footer" class="py-5 bg-dark">

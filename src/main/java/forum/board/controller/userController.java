@@ -1,9 +1,7 @@
 package forum.board.controller;
 
-import forum.board.controller.DTO.memberUpdateForm;
-import forum.board.controller.DTO.orderHistory;
-import forum.board.controller.DTO.orderProd;
-import forum.board.controller.DTO.prodSaveForm;
+import ch.qos.logback.core.recovery.ResilientOutputStreamBase;
+import forum.board.controller.DTO.*;
 import forum.board.domain.Member;
 import forum.board.domain.Products;
 import forum.board.domain.loginMember;
@@ -12,7 +10,9 @@ import forum.board.global.SessionManager;
 import forum.board.repository.MybatisMemberRepository;
 import forum.board.repository.MybatisProdFileRepository;
 import forum.board.service.ProductsService;
+import forum.board.service.memberService;
 import forum.board.service.orderService;
+import forum.board.service.pointsService;
 import forum.board.validation.ProdValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -53,9 +53,13 @@ public class userController {
 
     private final SessionManager sessionManager;
 
+    private final memberService memberService;
+
+    private final pointsService pointsService;
+
 
     /**
-     * 유저 마이페이지 기능 - 회원정보,주문정보,포인트충전
+     * 유저 마이페이지 기능 - 회원정보,주문정보
      */
 
     // 회원 개인정보를 보여주는 대문 마이페이지
@@ -63,8 +67,7 @@ public class userController {
     public String getUserMyPage(@PathVariable String userName, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) loginMember member, Model model)
     {
         if(member.getMemberName().equals(userName)) {
-            model.addAttribute("member", member);
-            model.addAttribute("points",memberRepository.findById(member.getMemberId()).getPoints());
+            model.addAttribute("mem", memberRepository.findById(member.getMemberId()));
             return "shop/userMyPage";
         }
         return "redirect:/";
@@ -72,18 +75,18 @@ public class userController {
 
 
    // 회원이 주문한 상품정보를 테이블로 보여주는 페이지
-    @GetMapping("profile/myPage/order/{userName}")
-    public String getUserOrderListPage(@PathVariable String userName,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
+    @GetMapping("profile/myPage/order/{memberId}")
+    public String getUserOrderListPage(@PathVariable Long memberId,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
     {
         int seq=0;
-        if(member.getMemberName().equals(userName)) {
+        if(member.getMemberId() == memberId) {
 
           List<orderHistory> orderHistoryList = orderService.getOrderHistory(member.getMemberId());
               for (orderHistory orderHistory : orderHistoryList) {
                   orderHistory.setModalSequence(++seq);
               }
             model.addAttribute("orderHistoryList",orderHistoryList);
-            model.addAttribute("member",member);
+            model.addAttribute("member",memberRepository.findById(memberId));
             return "shop/userOrderHistory";
         }
 
@@ -95,6 +98,7 @@ public class userController {
     public String getUserConfirmPage(@PathVariable String userName,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
     {
         if(member.getMemberName().equals(userName)) {
+            model.addAttribute("memberId",member.getMemberId());
             model.addAttribute("memberName",member.getMemberName());
             return "shop/confirmPw";
         }
@@ -155,11 +159,27 @@ public class userController {
         return "redirect:/";
     }
 
+    //포인트 충전페이지 불러오기
+    @GetMapping("profile/myPage/pay/{userName}")
+    public String getPaymentPointsPage(@PathVariable String userName, @SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false)loginMember member,Model model)
+    {
+        Member mem = memberRepository.findById(member.getMemberId());
+        model.addAttribute("member",mem);
 
+        return "shop/payments";
+    }
 
+    //충전될 포인트가 처리되는 메서드
+    @PostMapping("profile/myPage/payments/{userName}")
+    @ResponseBody
+    public void paymentsProcess(@PathVariable String userName, @ModelAttribute payForm payForm, @SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false)loginMember member)
+    {
+        if(userName.equals(member.getMemberName())) {
+            System.out.println("payForm = " + payForm);
+            pointsService.addPoints(payForm, member.getMemberId());
+        }
+    }
 
-
-    // 회원 포인트 충전 페이지
 
 
 
@@ -188,6 +208,22 @@ public class userController {
     public Resource getProdLogo(@PathVariable Long prodId) throws MalformedURLException {
 
         return new UrlResource("file:" + productsService.getProdImg(prodFileRepository.findProdFileById(prodId).getStoreFileName()));
+    }
+
+    /**
+     * 결제수단 이미지 불러와서 썸네일로 띄워주기 위한 메서드..
+     */
+    @GetMapping("/payImg/{payName}")
+    @ResponseBody
+    public Resource getPayMethodImg(@PathVariable String payName) throws MalformedURLException {
+
+        if(payName.equals("kakao")) {
+            String kakaoPath = "C:\\Users\\family\\IdeaProjects\\SpringDATA\\Forum\\src\\main\\resources\\static\\payImg\\kakaoPay.png";
+            return new UrlResource("file:" + kakaoPath);
+        }else {
+            String tossPath = "C:\\Users\\family\\IdeaProjects\\SpringDATA\\Forum\\src\\main\\resources\\static\\payImg\\tossPay.jpg";
+            return new UrlResource("file:" + tossPath);
+        }
     }
 
 
@@ -253,7 +289,7 @@ public class userController {
     }
 
     /**
-     * 어드민 관리자 페이지 기능 - 회원관리
+     * 어드민 관리자 페이지 기능 - 회원관리(권한변경 및 포인트 관리조작)
      */
 
     @GetMapping("profile/admin/member/manage")
@@ -274,6 +310,47 @@ public class userController {
         memberRepository.updateRole(memberId,member.getRole());
 
         return "redirect:/profile/admin/member/manage";
+    }
+
+
+    @GetMapping("profile/admin/member/manage/UpdatePoint/{memberId}")
+    public String getUpdateUserPointPage(@PathVariable Long memberId,Model model)
+    {
+        Member member = memberRepository.findById(memberId);
+        model.addAttribute("memberId",memberId);
+        model.addAttribute("memberName",member.getMemberName());
+        model.addAttribute("memberPoints",member.getPoints());
+
+        return "shop/changePoints";
+    }
+
+    @GetMapping("profile/admin/member/manage/addPoint/{memberId}")
+    public String getAddUserPointPage(@PathVariable Long memberId,Model model)
+    {
+        Member member = memberRepository.findById(memberId);
+        model.addAttribute("memberId",memberId);
+        model.addAttribute("memberName",member.getMemberName());
+        model.addAttribute("memberPoints",member.getPoints());
+
+        return "shop/userAddPoints";
+    }
+
+
+
+    @PostMapping("profile/admin/member/manage/UpdatePoint/{memberId}")
+    public String changeUserPoints(@PathVariable Long memberId,HttpServletRequest request)
+    {
+        memberService.changeMemberPoints(memberId,request);
+
+        return "shop/PointsModifySuccess";
+    }
+
+    @PostMapping("profile/admin/member/manage/addPoint/{memberId}")
+    public String addUserPoints(@PathVariable Long memberId,HttpServletRequest request)
+    {
+        memberService.addMemberPoints(memberId,request);
+
+        return "shop/PointsModifySuccess";
     }
 
 

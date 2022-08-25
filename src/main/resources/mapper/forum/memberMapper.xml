@@ -10,6 +10,10 @@
         update member set member_pw=#{updateMember.memberPw}, member_name=#{updateMember.memberName}, member_email=#{updateMember.memberEmail} where member_id=#{id}
     </update>
 
+    <update id="updatePoints">
+        update member set points=#{member.points} where member_id=#{id}
+    </update>
+
     <update id="updateByUser">
         update member set member_name=#{memberUpdate.memberName}, member_email=#{memberUpdate.memberEmail} where member_id=#{memberId}
     </update>

@@ -23,10 +23,10 @@
   <div class="border-end bg-white" id="sidebar-wrapper">
     <div class="sidebar-heading border-bottom bg-light">메뉴</div>
     <div class="list-group list-group-flush">
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/forum/freeBoard/}">자유게시판</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/userConfirm/{userName}(userName=${memberInfo.memberName})}">내 정보</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/order/{userName}(userName=${memberInfo.memberName})}">주문내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">포인트 충전</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/{userName}(userName=${memberInfo.memberName})}">내정보</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/userConfirm/{userName}(userName=${memberInfo.memberName})}">내 정보수정</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/order/{userName}(userName=${memberInfo.memberId})}">주문내역</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/profile/myPage/pay/{userName}(userName=${memberInfo.memberName})}">포인트 충전</a>
     </div>
   </div>
   <!-- Page content wrapper-->

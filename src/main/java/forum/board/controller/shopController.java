@@ -6,6 +6,7 @@ import forum.board.domain.loginMember;
 import forum.board.global.AuthConst;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
+import forum.board.repository.MybatisMemberRepository;
 import forum.board.service.ProductsService;
 import forum.board.service.StockCheckService;
 import forum.board.service.cartService;
@@ -32,7 +33,7 @@ public class shopController {
     private final ProductsService productsService;
     private final cartService cartService;
 
-    private final StockCheckService stockCheckService;
+    private final MybatisMemberRepository memberRepository;
 
 
 
@@ -68,7 +69,7 @@ public class shopController {
                 }else {
                     model.addAttribute("products", prodByCategory);
                     model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
-                    model.addAttribute("member",member);
+                    model.addAttribute("member",memberRepository.findById(member.getMemberId()));
                     if(cartService.getCartCnt(member.getMemberId()) != null) {
                        cartCnt = (int)cartService.getCartCnt(member.getMemberId());
                     }
@@ -84,7 +85,7 @@ public class shopController {
                 }else{
                     model.addAttribute("products", prodByCategory);
                     model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
-                    model.addAttribute("member",member);
+                    model.addAttribute("member",memberRepository.findById(member.getMemberId()));
                     if(cartService.getCartCnt(member.getMemberId()) != null) {
                         cartCnt = (int)cartService.getCartCnt(member.getMemberId());
                     }
@@ -128,7 +129,7 @@ public class shopController {
                     model.addAttribute("message","이미 장바구니에 존재하는 상품입니다.");
                 }
             }
-            model.addAttribute("member",member);
+            model.addAttribute("member",memberRepository.findById(member.getMemberId()));
             model.addAttribute("product",findProd);
             model.addAttribute("relatedProdList",relatedProdList);
             model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);

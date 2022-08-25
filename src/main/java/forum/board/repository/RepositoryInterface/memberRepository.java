@@ -2,6 +2,7 @@ package forum.board.repository.RepositoryInterface;
 
 import forum.board.controller.DTO.memberUpdateForm;
 import forum.board.domain.Member;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,8 @@ public interface memberRepository {
     String findByEmail(String email);
 
     void update(Long memberId, Member updateMember);
+
+    void updatePoints(Long memberId, Member member);
 
     void updateByUser(Long memberId, memberUpdateForm memberUpdateForm);
 

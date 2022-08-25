@@ -70,10 +70,9 @@ public class orderController {
         }
 
         //성공시 구매처리 로직이후 마이페이지 구매내역으로 리다이렉트
-        System.out.println("orderSaveForm = " + orderSaveForm);
         orderService.orderProcess(memberId,orderSaveForm);
 
-        return "redirect:/";
+        return "redirect:/profile/myPage/order/{memberId}";
     }
 
 

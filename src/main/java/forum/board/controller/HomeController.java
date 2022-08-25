@@ -4,6 +4,7 @@ import forum.board.domain.Products;
 import forum.board.domain.loginMember;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
+import forum.board.repository.MybatisMemberRepository;
 import forum.board.service.ProductsService;
 import forum.board.service.cartService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ public class HomeController {
     private final ProductsService productsService;
     private final cartService cartService;
 
+    private final MybatisMemberRepository memberRepository;
+
     @GetMapping("/")
     public String HomeIndex(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) loginMember loginMember, Model model)
     {
@@ -46,7 +49,7 @@ public class HomeController {
         if(cartService.getCartCnt(loginMember.getMemberId()) != null) {
             cartCnt = (int)cartService.getCartCnt(loginMember.getMemberId());
         }
-        model.addAttribute("member",loginMember);
+        model.addAttribute("member",memberRepository.findById(loginMember.getMemberId()));
         model.addAttribute("products",prodAll);
         model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
         model.addAttribute("cartCnt",cartCnt);
