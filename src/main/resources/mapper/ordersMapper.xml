@@ -14,11 +14,11 @@
     </insert>
 
 
-    <select id="getOrderProd" resultType="forum.board.controller.DTO.orderProd">
+    <select id="getOrderProd" resultType="orderProd">
         select prod_name,prod_cnt,prod_price from orders join order_list ol on orders.order_id = ol.order_id where member_id=#{memberId} and orders.order_id=#{orderId}
     </select>
 
-    <select id="getOrderHistoryByMemberId" resultType="forum.board.controller.DTO.orderHistory">
+    <select id="getOrderHistoryByMemberId" resultType="orderHistory">
         select order_id,member_real_name,member_phone,order_status from orders where member_id=#{memberId}
     </select>
 

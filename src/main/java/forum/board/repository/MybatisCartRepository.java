@@ -4,7 +4,6 @@ import forum.board.controller.DTO.cartSaveForm;
 import forum.board.domain.Cart;
 import forum.board.repository.mybatisMapper.cartMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -41,7 +41,7 @@ import java.net.MalformedURLException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping
-public class BoardController {
+public class boardController {
 
     private final ItemService itemService;
     private final paginationService paginationService;

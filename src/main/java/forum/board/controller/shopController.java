@@ -8,7 +8,6 @@ import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
 import forum.board.repository.MybatisMemberRepository;
 import forum.board.service.ProductsService;
-import forum.board.service.StockCheckService;
 import forum.board.service.cartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

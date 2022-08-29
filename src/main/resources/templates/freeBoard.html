@@ -63,9 +63,9 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>
+                <!--<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">공지사항</a></li>-->
                 <li class="nav-item"><a class="nav-link" th:onclick="|location.href='@{/forum/freeBoard}'|">자유게시판</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+                <!--<li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -105,16 +105,14 @@
                         <th>제목</th>
                         <th>작성자</th>
                         <th>조회수</th>
-                        <th>댓글</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="item : ${pagination.getItems()}">
                         <td><a th:href="@{/forum/freeBoard/viewForm/{itemId}(itemId=${item.getItemId()})}" th:text="*{item.num}">번호</a></td>
                         <td><a th:href="@{/forum/freeBoard/viewForm/{itemId}(itemId=${item.itemId})}" th:text="*{item.getTitle()}">제목</a></td>
-                        <td th:text="*{item.getWriter()}">작성자</td> <!--닉네임을 누르면 회원정보 보기로 넘어가게끔? 할수있나? -->
+                        <td th:text="*{item.getWriter()}">작성자</td>
                         <td th:text="*{item.getViewCnt}">조회수</td>
-                        <td th:text="*{item.getGoodCnt()}">추천수(댓글수로변경예정)</td>
                     </tr>
 
                     </tbody>
@@ -169,7 +167,7 @@
     </div>
     <!-- Footer-->
     <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; BoardGameForum</p></div>
     </footer>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

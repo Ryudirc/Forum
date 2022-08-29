@@ -11,7 +11,7 @@
     </update>
 
     <update id="updateStock" parameterType="java.util.List">
-        <foreach collection="list" separator=";" item="cart" close=";">
+        <foreach collection="list" separator=";" item="Cart" close=";">
             update products set prod_stock=prod_stock - #{cart.prodCnt} where prod_id=#{cart.prodId}
         </foreach>
     </update>

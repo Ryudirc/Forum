@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'Forum'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 configurations {
     compileOnly {
@@ -28,7 +28,7 @@ dependencies {
 
     //Mybatis 의존성 추가
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
-    runtimeOnly 'mysql:mysql-connector-java:8.0.29'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.30'
 
 
     //validation 을 위한 하이버네이트 validator 추가 (Bean Validation)

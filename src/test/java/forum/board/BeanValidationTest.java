@@ -57,14 +57,6 @@ public class BeanValidationTest {
     }
 
     @Test
-    void IntegerToInt()
-    {
-        Integer test = null;
-        int test2 = (int) test;
-        System.out.println(test2);
-    }
-
-    @Test
     void IfTest()
     {
         int num=1;
