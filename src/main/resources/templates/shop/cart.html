@@ -19,6 +19,15 @@
         .no-stock {
             color: #dc3545;
         }
+        .link-a {
+            text-underline: none;
+            color: #1a1e21;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: orange;
+        }
     </style>
 </head>
 <body>
@@ -92,7 +101,7 @@
                                     <img th:src="|/prodImage/*{cart.prodId}|" width="250" height="250" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                 </div>
                                 <div class="col-md-9 text-left mt-sm-2">
-                                    <h4 th:text="*{cart.prodName}">Product Name</h4>
+                                    <a class="link-a" th:href="@{/bgshop/prodDetail/{prodId}(prodId=*{cart.prodId})}"><h4 th:text="*{cart.prodName}">Product Name</h4></a>
                                     <p th:text="|현재 재고 : *{cart.stock}개|" class="font-weight-light">total quantity</p>
                                     <p th:if="*{cart.stock == 0}" class="no-stock">해당상품의 재고가 없습니다. 장바구니에서 삭제해주세요.</p>
                                 </div>
