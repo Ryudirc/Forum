@@ -2,7 +2,7 @@
 ### 기본 인적사항
  - 이메일 : cnh0090@nhaver.com
  - GitHub : https://github.com/Ryudirc
- - disCord : LickTe#7681
+ - DISCORD : LickTe#7681
  
  ### 학력
   - 한신대학교 정보통신학부 입학(2018 ~ )
