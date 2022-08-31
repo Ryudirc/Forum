@@ -1,6 +1,6 @@
 # Portfolio
 ### 기본 인적사항
- - 이메일 : cnh0090@nhaver.com
+ - 이메일 : cnh0090@naver.com
  - GitHub : https://github.com/Ryudirc
  - DISCORD : LickTe#7681
  
