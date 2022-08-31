@@ -48,13 +48,16 @@
    
 ## 메인기능 1 : 쇼핑몰 전체 기능
 1. 어드민으로 로그인하면 원하는 상품을 등록 및 자유롭게 수정, 삭제가 가능하며 가입한 회원의 상태를 변경할 수 있다.
+[![메인기능1_1](http://img.youtube.com/vi/jV2HWLNqiwA/maxresdefault.jpg)](https://youtu.be/jV2HWLNqiwA)
 
 2. 유저로 로그인하면, 어드민이 업로드한 상품이 보이며, 카테고리별로도 볼 수 있으며 장바구니에 담고 구매가 가능하다.
+[![메인기능1_2](http://img.youtube.com/vi/ePH-LCA0sPQ/maxresdefault.jpg)](https://youtu.be/ePH-LCA0sPQ)
 
 
 ## 메인기능 2 : 게시판 전체 기능
 1. 로그인한 사용자는 자유롭게 게시글을 올릴 수 있고, 자유롭게 검색 및 탐색이 가능하다.
-
+[![메인기능2](http://img.youtube.com/vi/_8HvkKZAOi8/maxresdefault.jpg)](https://youtu.be/_8HvkKZAOi8)
 
 ## 메인기능 3 : 마이페이지
 1. 마이페이지에서 회원정보를 변경하거나, 연동된 결제모듈로 포인트를 결제할 수 있다.
+[![메인기능3](http://img.youtube.com/vi/nTuxDpQO7XQ/maxresdefault.jpg)](https://youtu.be/nTuxDpQO7XQ)
