@@ -1,6 +1,6 @@
 package forum.board.service;
 
-import forum.board.controller.DTO.prodSaveForm;
+import forum.board.controller.DTO.ProdSaveForm;
 import forum.board.domain.Cart;
 import forum.board.domain.Products;
 import forum.board.domain.UploadProdFile;
@@ -27,7 +27,7 @@ public class ProductsService {
        return productsRepository.findAll();
    }
 
-    public void prodAddProcess(prodSaveForm form) throws IOException {
+    public void prodAddProcess(ProdSaveForm form) throws IOException {
 
             Products products = new Products();
             products.setProdCategory(form.getProdCategory());
@@ -70,7 +70,7 @@ public class ProductsService {
         return productsRepository.findByCategory(category);
     }
 
-    public void updateProdProcess(Long prodId,prodSaveForm form) throws IOException {
+    public void updateProdProcess(Long prodId, ProdSaveForm form) throws IOException {
         productsRepository.updateProd(prodId,form);
         if(!form.getProdImg().isEmpty()) {
             UploadProdFile changeUploadFile = prodImgProcess(prodId, form.getProdImg());

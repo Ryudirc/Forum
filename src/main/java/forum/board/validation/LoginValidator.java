@@ -1,6 +1,6 @@
 package forum.board.validation;
 
-import forum.board.controller.DTO.loginForm;
+import forum.board.controller.DTO.LoginForm;
 import forum.board.repository.MybatisMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ public class LoginValidator implements Validator{
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return loginForm.class.isAssignableFrom(clazz);
+        return LoginForm.class.isAssignableFrom(clazz);
         // loginForm == clazz 를 확인
         // loginForm 의 자식 class 까지 커버됨
     }
@@ -23,7 +23,7 @@ public class LoginValidator implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
 
-        loginForm loginForm = (loginForm) target;
+        LoginForm loginForm = (LoginForm) target;
 
         if(loginForm.getMemberAcct().isEmpty()|| loginForm.getMemberPw().isEmpty())
         {

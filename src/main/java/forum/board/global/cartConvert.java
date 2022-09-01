@@ -1,6 +1,6 @@
 package forum.board.global;
 
-import forum.board.controller.DTO.cartInfo;
+import forum.board.controller.DTO.CartInfo;
 import forum.board.domain.Cart;
 import forum.board.service.ProductsService;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ public class cartConvert {
 
     private final ProductsService productsService;
 
-    public List<cartInfo> CartConvertToCartInfo(List<Cart> cartList)
+    public List<CartInfo> CartConvertToCartInfo(List<Cart> cartList)
     {
-        ArrayList<cartInfo> cartInfoList = new ArrayList<>();
+        ArrayList<CartInfo> cartInfoList = new ArrayList<>();
         for (Cart cart : cartList) {
-           cartInfoList.add(new cartInfo(cart.getMemberId(),cart.getProdId(),cart.getProdName(),cart.getProdPrice(),cart.getProdCnt(),productsService.findProdById(cart.getProdId()).getProdStock()));
+           cartInfoList.add(new CartInfo(cart.getMemberId(),cart.getProdId(),cart.getProdName(),cart.getProdPrice(),cart.getProdCnt(),productsService.findProdById(cart.getProdId()).getProdStock()));
         }
 
         return cartInfoList;

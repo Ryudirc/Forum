@@ -1,9 +1,9 @@
 package forum.board.repository;
 
-import forum.board.controller.DTO.prodSaveForm;
+import forum.board.controller.DTO.ProdSaveForm;
 import forum.board.domain.Cart;
 import forum.board.domain.Products;
-import forum.board.repository.mybatisMapper.productsMapper;
+import forum.board.repository.mybatisMapper.ProductsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,14 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MybatisProductsRepository {
 
-    private final productsMapper productsMapper;
+    private final ProductsMapper productsMapper;
 
     public void saveProd(Products prod)
     {
         productsMapper.saveProd(prod);
     }
 
-    public void updateProd(Long prodId, prodSaveForm form)
+    public void updateProd(Long prodId, ProdSaveForm form)
     {
         productsMapper.updateProd(prodId,form);
     }

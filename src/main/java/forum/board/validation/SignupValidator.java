@@ -1,6 +1,6 @@
 package forum.board.validation;
 
-import forum.board.controller.DTO.signUpForm;
+import forum.board.controller.DTO.SignUpForm;
 import forum.board.repository.MybatisMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,13 +17,13 @@ public class SignupValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return signUpForm.class.isAssignableFrom(clazz);
+        return SignUpForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
 
-        signUpForm signUpForm = (signUpForm) target;
+        SignUpForm signUpForm = (SignUpForm) target;
 
         //아이디 중복검증
         if(memberRepository.findByLoginId(signUpForm.getMemberAcct()) != null)

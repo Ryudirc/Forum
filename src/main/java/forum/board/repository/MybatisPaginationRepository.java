@@ -1,7 +1,7 @@
 package forum.board.repository;
 
 import forum.board.domain.Item;
-import forum.board.repository.mybatisMapper.paginationMapper;
+import forum.board.repository.mybatisMapper.PaginationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MybatisPaginationRepository {
 
-    private final paginationMapper paginationMapper;
+    private final PaginationMapper paginationMapper;
 
     public List<Item> findAllRows()
     {

@@ -1,22 +1,21 @@
 package forum.board.repository;
 
-import forum.board.controller.DTO.memberUpdateForm;
+import forum.board.controller.DTO.MemberUpdateForm;
 import forum.board.domain.Member;
-import forum.board.repository.RepositoryInterface.memberRepository;
-import forum.board.repository.mybatisMapper.memberMapper;
+import forum.board.repository.RepositoryInterface.MemberRepository;
+import forum.board.repository.mybatisMapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
 @RequiredArgsConstructor
-public class MybatisMemberRepository implements memberRepository {
+public class MybatisMemberRepository implements MemberRepository {
 
 
-    private final memberMapper memberMapper;
+    private final MemberMapper memberMapper;
 
     @Override
     public void save(Member member) {
@@ -62,7 +61,7 @@ public class MybatisMemberRepository implements memberRepository {
     }
 
     @Override
-    public void updateByUser(Long memberId, memberUpdateForm memberUpdateForm) {
+    public void updateByUser(Long memberId, MemberUpdateForm memberUpdateForm) {
         memberMapper.updateByUser(memberId,memberUpdateForm);
 
     }

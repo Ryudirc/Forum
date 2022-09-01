@@ -1,20 +1,18 @@
 package forum.board.controller;
 
 import forum.board.domain.Products;
-import forum.board.domain.loginMember;
+import forum.board.domain.LoginMember;
 import forum.board.global.CategoryType;
 import forum.board.global.SessionConst;
 import forum.board.repository.MybatisMemberRepository;
 import forum.board.service.ProductsService;
-import forum.board.service.cartService;
+import forum.board.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -28,12 +26,12 @@ import java.util.List;
 public class HomeController {
 
     private final ProductsService productsService;
-    private final cartService cartService;
+    private final CartService cartService;
 
     private final MybatisMemberRepository memberRepository;
 
     @GetMapping("/")
-    public String HomeIndex(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) loginMember loginMember, Model model)
+    public String HomeIndex(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) LoginMember loginMember, Model model)
     {
         List<Products> prodAll = productsService.getProdAll();
         int cartCnt = 0;

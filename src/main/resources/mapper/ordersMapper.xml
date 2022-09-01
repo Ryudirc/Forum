@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="forum.board.repository.mybatisMapper.ordersMapper">
+<mapper namespace="forum.board.repository.mybatisMapper.OrdersMapper">
 
     <insert id="saveOrder" useGeneratedKeys="true" keyProperty="orderId">
         insert into orders(member_id,member_real_name,member_phone,delivery_requirements,member_address) values (#{memberId},#{memberRealName},#{memberPhone},#{deliveryRequirements},#{memberAddress})
@@ -8,17 +8,17 @@
 
 
     <insert id="saveOrderList" useGeneratedKeys="true" keyProperty="listId">
-        insert into order_list(order_id,prod_name,prod_cnt,prod_price) values <foreach collection="list" item="orderList" separator=",">
+        insert into order_list(order_id,prod_name,prod_cnt,prod_price) values <foreach collection="list" item="OrderList" separator=",">
         (#{orderList.orderId},#{orderList.prodName},#{orderList.prodCnt},#{orderList.prodPrice})
     </foreach>
     </insert>
 
 
-    <select id="getOrderProd" resultType="orderProd">
+    <select id="getOrderProd" resultType="OrderProd">
         select prod_name,prod_cnt,prod_price from orders join order_list ol on orders.order_id = ol.order_id where member_id=#{memberId} and orders.order_id=#{orderId}
     </select>
 
-    <select id="getOrderHistoryByMemberId" resultType="orderHistory">
+    <select id="getOrderHistoryByMemberId" resultType="OrderHistory">
         select order_id,member_real_name,member_phone,order_status from orders where member_id=#{memberId}
     </select>
 

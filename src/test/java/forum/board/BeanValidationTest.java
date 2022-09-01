@@ -1,7 +1,6 @@
 package forum.board;
 
-import forum.board.controller.DTO.prodSaveForm;
-import org.assertj.core.api.Assertions;
+import forum.board.controller.DTO.ProdSaveForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +33,7 @@ public class BeanValidationTest {
         ValidatorFactory fac = Validation.buildDefaultValidatorFactory();
         Validator validator = fac.getValidator();
 
-        prodSaveForm form = new prodSaveForm();
+        ProdSaveForm form = new ProdSaveForm();
         form.setProdCategory("normalProd");
         form.setProdName("");
         form.setProdStock(null);
@@ -46,8 +45,8 @@ public class BeanValidationTest {
         form.setProdImg(multipartFile);
 
         //when
-        Set<ConstraintViolation<prodSaveForm>> violations = validator.validate(form);
-        for (ConstraintViolation<prodSaveForm> violation : violations) {
+        Set<ConstraintViolation<ProdSaveForm>> violations = validator.validate(form);
+        for (ConstraintViolation<ProdSaveForm> violation : violations) {
             System.out.println("violation = " + violation);
             System.out.println("violation.getMessage() = " + violation.getMessage());
         }

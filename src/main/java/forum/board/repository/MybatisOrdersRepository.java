@@ -1,12 +1,10 @@
 package forum.board.repository;
 
-import forum.board.controller.DTO.orderHistory;
-import forum.board.controller.DTO.orderProd;
-import forum.board.controller.DTO.viewOrderForm;
-import forum.board.domain.orders;
-import forum.board.domain.orderList;
-import forum.board.repository.mybatisMapper.orderHistoryMapper;
-import forum.board.repository.mybatisMapper.ordersMapper;
+import forum.board.controller.DTO.OrderHistory;
+import forum.board.controller.DTO.OrderProd;
+import forum.board.domain.Orders;
+import forum.board.domain.OrderList;
+import forum.board.repository.mybatisMapper.OrdersMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,24 +14,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MybatisOrdersRepository {
 
-    private final ordersMapper ordersMapper;
+    private final OrdersMapper ordersMapper;
 
-    public void saveOrder(orders order)
+    public void saveOrder(Orders order)
     {
         ordersMapper.saveOrder(order);
     }
 
-    public void saveOrderList(List<orderList> orderList)
+    public void saveOrderList(List<OrderList> orderList)
     {
         ordersMapper.saveOrderList(orderList);
     }
 
-   public List<orderProd> getOrderProd(Long memberId,Long orderId)
+   public List<OrderProd> getOrderProd(Long memberId, Long orderId)
    {
        return ordersMapper.getOrderProd(memberId,orderId);
    }
 
-   public List<orderHistory> getOrderHistoryByMemberId(Long memberId)
+   public List<OrderHistory> getOrderHistoryByMemberId(Long memberId)
    {
        return ordersMapper.getOrderHistoryByMemberId(memberId);
    }

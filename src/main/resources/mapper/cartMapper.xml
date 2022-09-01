@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="forum.board.repository.mybatisMapper.cartMapper">
+<mapper namespace="forum.board.repository.mybatisMapper.CartMapper">
 
 <insert id="saveCartProd" >
     insert into cart(member_id,prod_id,prod_name,prod_price,prod_cnt) values (#{memberId},#{prodId},#{form.prodName},#{form.prodPrice},#{form.prodCnt})

@@ -1,16 +1,15 @@
 package forum.board.repository;
 
 import forum.board.domain.UploadProdFile;
-import forum.board.repository.mybatisMapper.prodFileUploadMapper;
+import forum.board.repository.mybatisMapper.ProdFileUploadMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class MybatisProdFileRepository {
 
-    private final prodFileUploadMapper prodFileUploadMapper;
+    private final ProdFileUploadMapper prodFileUploadMapper;
 
     public void saveProdFile(UploadProdFile prodFile)
     {

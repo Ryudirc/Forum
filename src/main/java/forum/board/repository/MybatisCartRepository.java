@@ -1,8 +1,8 @@
 package forum.board.repository;
 
-import forum.board.controller.DTO.cartSaveForm;
+import forum.board.controller.DTO.CartSaveForm;
 import forum.board.domain.Cart;
-import forum.board.repository.mybatisMapper.cartMapper;
+import forum.board.repository.mybatisMapper.CartMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MybatisCartRepository {
 
-    private final cartMapper cartMapper;
+    private final CartMapper cartMapper;
 
-    public void saveCartProd(Long prodId,cartSaveForm form,Long memberId)
+    public void saveCartProd(Long prodId, CartSaveForm form, Long memberId)
     {
         cartMapper.saveCartProd(prodId,form,memberId);
     }

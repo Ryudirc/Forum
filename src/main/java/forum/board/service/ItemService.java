@@ -5,7 +5,7 @@ import forum.board.controller.DTO.ItemSaveForm;
 import forum.board.controller.DTO.ItemUpdateForm;
 import forum.board.domain.Item;
 import forum.board.domain.UploadFile;
-import forum.board.domain.loginMember;
+import forum.board.domain.LoginMember;
 import forum.board.global.FileStore;
 import forum.board.repository.MybatisFileRepository;
 import forum.board.repository.MybatisItemRepository;
@@ -47,7 +47,7 @@ public class ItemService {
         itemRepository.delete(itemId);
     }
 
-    public Item formFileProcess(ItemSaveForm form, loginMember member) throws IOException {
+    public Item formFileProcess(ItemSaveForm form, LoginMember member) throws IOException {
 
         //데이터베이스에 저장
         Item item = new Item();

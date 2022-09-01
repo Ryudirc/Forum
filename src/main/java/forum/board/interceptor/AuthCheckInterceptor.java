@@ -1,7 +1,6 @@
 package forum.board.interceptor;
 
-import forum.board.domain.Member;
-import forum.board.domain.loginMember;
+import forum.board.domain.LoginMember;
 import forum.board.global.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -27,7 +26,7 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
         log.info("(권한체크 인터셉터 동작)[요청자 : {}][URI : {}]",uuid,requestURI);
 
         HttpSession session = request.getSession();
-        loginMember Member = (loginMember)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        LoginMember Member = (LoginMember)session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         if(!(Member.getRole().equals("ADMIN"))) {
             log.info("(권한체크 인터셉터 : 어드민이 아닌 요청자)[요청자 : {}][URI : {}]",uuid,requestURI);

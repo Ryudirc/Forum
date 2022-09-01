@@ -1,6 +1,6 @@
 package forum.board.validation;
 
-import forum.board.controller.DTO.prodSaveForm;
+import forum.board.controller.DTO.ProdSaveForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,13 +9,13 @@ import org.springframework.validation.Validator;
 public class ProdValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return prodSaveForm.class.isAssignableFrom(clazz);
+        return ProdSaveForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
 
-        prodSaveForm form = (prodSaveForm) target;
+        ProdSaveForm form = (ProdSaveForm) target;
 
 
         //카테고리&상품정보 일치여부 검증

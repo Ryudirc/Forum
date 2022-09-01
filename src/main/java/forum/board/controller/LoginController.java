@@ -1,7 +1,7 @@
 package forum.board.controller;
 
-import forum.board.controller.DTO.loginForm;
-import forum.board.domain.loginMember;
+import forum.board.controller.DTO.LoginForm;
+import forum.board.domain.LoginMember;
 import forum.board.domain.Member;
 import forum.board.global.SessionConst;
 import forum.board.service.LoginService;
@@ -31,13 +31,13 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public String loginPage(@ModelAttribute("loginForm") loginForm loginForm)
+    public String loginPage(@ModelAttribute("loginForm") LoginForm loginForm)
     {
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginProcess(@ModelAttribute("loginForm") loginForm loginform, BindingResult bindingResult, HttpServletRequest request,@RequestParam(defaultValue = "/") String redirectURL)
+    public String loginProcess(@ModelAttribute("loginForm") LoginForm loginform, BindingResult bindingResult, HttpServletRequest request, @RequestParam(defaultValue = "/") String redirectURL)
     {
         // 로그인 시도 시 아아디 및 비밀번호 검증
         if(loginValidator.supports(loginform.getClass()))
@@ -52,7 +52,7 @@ public class LoginController {
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성(회원정보 세션에 담아서)
         Member loginMember = loginService.doLogin(loginform);
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER,new loginMember(loginMember.getMemberId(),loginMember.getMemberName(),loginMember.getRole()));
+        session.setAttribute(SessionConst.LOGIN_MEMBER,new LoginMember(loginMember.getMemberId(),loginMember.getMemberName(),loginMember.getRole()));
 
         return "redirect:" + redirectURL;
 
