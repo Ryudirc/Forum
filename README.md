@@ -1,17 +1,13 @@
-# 김용환
+# Portfolio
 ### 기본 인적사항
- - 이메일 : cnh0090@nhaver.com
+ - 이메일 : cnh0090@naver.com
  - GitHub : https://github.com/Ryudirc
  - DISCORD : LickTe#7681
  
- ### 학력
-  - 한신대학교 정보통신학부 입학(2018 ~ )
-  - 한신대학교 정보통신학부 휴학중(2020 ~ )
-  
  ### 기술스택
  - #### 프론트엔드
     - HTML의 구조, BootStrap 사용하여 백엔드에서 구성한 로직을 통해 templateEngine 으로 view 를 제작할 수 있음
-    - 약간의 JavaScript, Jquery를 공부하였음
+    - 약간의 JavaScript, Jquery를 공부하여 간단한 ajax 를 다룰 수 있음 
     
  - #### 백엔드
     - Java: 자바를 활용하여 비즈니스 로직을 작성할 수 있음
