@@ -14,7 +14,7 @@ import java.util.List;
 public class CartService {
 
     private final MybatisCartRepository cartRepository;
-    private final MybatisProductsRepository productsRepository;
+
 
 
     //상품을 카트데이터베이스에 적재

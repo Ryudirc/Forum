@@ -199,7 +199,7 @@ public class UserController {
     /**
      * 상품 썸네일 이미지를 Resource 로 반환하여 화면에 노출시켜주도록 한다.
      */
-    @GetMapping("/prodImage/{prodId}")
+    @GetMapping(value = "/prodImage/{prodId}",produces = "image/jpeg")
     @ResponseBody
     public Resource getProdLogo(@PathVariable Long prodId) throws MalformedURLException {
 

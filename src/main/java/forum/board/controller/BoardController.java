@@ -27,9 +27,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.http.HttpResponse;
 
 /**
  * 게시판 글 목록을 뿌려주는 컨트롤러
@@ -101,7 +103,7 @@ public class BoardController {
 
     }
 
-    @GetMapping("summernoteImage/{filename}")
+    @GetMapping(value = "summernoteImage/{filename}",produces = "image/jpeg")
     @ResponseBody
     public Resource showSummernoteImg(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + itemService.getSummernoteImgPath(filename));
