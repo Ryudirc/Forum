@@ -20,6 +20,7 @@
 ### 주제
  - ### 보드게임 쇼핑몰과 고객간 보드게임에 관한 의견을 나눌 수 있는 커뮤니티 게시판을 포함한 웹 서비스
  - ### 접속주소 : http://52.78.127.22:8080/  (AWS EC2 , RDS 사용)
+ - ### DDL : https://drive.google.com/file/d/17R3tBRt23ZkHSRw37b-DeD2dJLP5Gd2Z/view?usp=sharing
 
 
 
