@@ -172,7 +172,6 @@ public class UserController {
     public void paymentsProcess(@PathVariable String userName, @ModelAttribute PayForm payForm, @SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false) LoginMember member)
     {
         if(userName.equals(member.getMemberName())) {
-            System.out.println("payForm = " + payForm);
             pointsService.addPoints(payForm, member.getMemberId());
         }
     }
