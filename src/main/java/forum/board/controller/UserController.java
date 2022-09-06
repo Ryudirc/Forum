@@ -14,6 +14,7 @@ import forum.board.service.OrderService;
 import forum.board.service.PointsService;
 import forum.board.validation.ProdValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
@@ -213,11 +214,12 @@ public class UserController {
     @ResponseBody
     public Resource getPayMethodImg(@PathVariable String payName) throws MalformedURLException {
 
+
         if(payName.equals("kakao")) {
-            String kakaoPath = "C:\\Users\\family\\IdeaProjects\\SpringDATA\\Forum\\src\\main\\resources\\static\\payImg\\kakaoPay.png";
+            String kakaoPath = "/home/ec2-user/apps/payImg/kakaoPay.png";
             return new UrlResource("file:" + kakaoPath);
         }else {
-            String tossPath = "C:\\Users\\family\\IdeaProjects\\SpringDATA\\Forum\\src\\main\\resources\\static\\payImg\\tossPay.jpg";
+            String tossPath = "/home/ec2-user/apps/payImg/tossPay.jpg";
             return new UrlResource("file:" + tossPath);
         }
     }
