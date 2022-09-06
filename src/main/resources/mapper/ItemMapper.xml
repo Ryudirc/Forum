@@ -4,7 +4,7 @@
 <mapper namespace="forum.board.repository.mybatisMapper.ItemMapper">
 
     <insert id="save" useGeneratedKeys="true" keyProperty="itemId">
-        insert into item(title,content,writer) values(#{title},#{content},#{writer})
+        insert into item(title,content,writer,view_cnt,writer_id) values(#{title},#{content},#{writer},#{viewCnt},#{writerId})
     </insert>
 
     <select id="findById" resultType="Item">

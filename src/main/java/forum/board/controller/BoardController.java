@@ -138,7 +138,7 @@ public class BoardController {
 
 
         if(loginMember.getRole().equals("USER")) {
-            if (!(loginMember.getMemberName().equals(item.getWriter()))) {
+            if (!(loginMember.getMemberId().equals(item.getWriterId()))) {
                 model.addAttribute("member", loginMember);
                 model.addAttribute("item", item);
                 model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);

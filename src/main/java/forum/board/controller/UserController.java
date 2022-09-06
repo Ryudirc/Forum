@@ -208,7 +208,7 @@ public class UserController {
     }
 
     /**
-     * 결제수단 이미지 불러와서 썸네일로 띄워주기 위한 메서드..
+     * 결제수단 이미지 불러와서 썸네일로 띄워주기 위한 메서드
      */
     @GetMapping("/payImg/{payName}")
     @ResponseBody

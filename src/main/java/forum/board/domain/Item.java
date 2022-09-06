@@ -19,7 +19,8 @@ public class Item {
     private String writer;
     private List<UploadFile> attachFiles;
     private int viewCnt;
-    private int goodCnt;
+    //private int goodCnt;
+    private Long writerId;
 
 
 

@@ -56,7 +56,8 @@ public class ItemService {
         item.setContent(form.getContent());
         item.setWriter(member.getMemberName());
         item.setViewCnt(0);
-        item.setGoodCnt(0);
+        //item.setGoodCnt(0);
+        item.setWriterId(member.getMemberId());
         itemRepository.save(item);
 
 
