@@ -21,6 +21,18 @@
  - ### 보드게임 쇼핑몰과 고객간 보드게임에 관한 의견을 나눌 수 있는 커뮤니티 게시판을 포함한 웹 서비스
 
 
+# 프로젝트 디테일
+ ### 접속정보
+ - ### 접속주소 : http://52.78.127.22:8080/  (AWS EC2 , RDS 사용)
+
+ ### SQL DDL 정보
+ - ### DDL : https://drive.google.com/file/d/17R3tBRt23ZkHSRw37b-DeD2dJLP5Gd2Z/view?usp=sharing
+
+ ### 계정 정보
+- ### Admin : admin / admin123
+- ### User : testuser / test123
+
+
 
 ### 주요 기능과 로직
  - #### 공통
