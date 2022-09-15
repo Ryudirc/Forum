@@ -25,8 +25,6 @@
  ### 접속정보
  - ### 접속주소 : http://52.78.127.22:8080/  (AWS EC2 , RDS 사용)
 
- ### SQL DDL 정보
- - ### DDL : https://drive.google.com/file/d/1SP9Oveg3yfSyfwiKvz021V09lJImE0Mx/view?usp=sharing
 
  ### 계정 정보
 - ### Admin : admin / admin123
