@@ -83,9 +83,7 @@ public class BoardController {
        if(bindingResult.hasErrors())
        {
            model.addAttribute("member",loginMember);
-           for (FieldError fieldError : bindingResult.getFieldErrors()) {
-               System.out.println("fieldError = " + fieldError);
-           }
+           model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
            return "addForm";
        }
 
@@ -136,6 +134,8 @@ public class BoardController {
     {
         Item item = itemService.findById(itemId);
 
+        // 로그인한 멤버의 권한이 USER 이고 if 조건 분기에 따라 본인 게시글이면 viewForm 으로 이동하고 아니면 viewFomOther 로 이동하도록 설계했다.
+        // 로그인한 멤버의 권한이 USER 가 아니라면 ADMIN 이므로, ADMIN 의 권한에 따라 모든 게시글의 CURD 가 가능하므로 바로 viewForm 으로 이동하도록 설계했다.
 
         if(loginMember.getRole().equals("USER")) {
             if (!(loginMember.getMemberId().equals(item.getWriterId()))) {
@@ -159,12 +159,17 @@ public class BoardController {
     public String editForm(@PathVariable Long itemId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) LoginMember loginMember, Model model)
     {
         Item item = itemService.findById(itemId);
-        model.addAttribute("form",new ItemUpdateForm(item.getItemId(),item.getTitle(),item.getContent()));
-        model.addAttribute("member",loginMember);
-        model.addAttribute("categoryType",CategoryType.CATEGORY_TYPE);
 
+        // 본인의 게시글이 아닌 다른사람이 작성한 게시글을 수정하려고 url 을 변경하면 수정이 가능했기때문에, 이를 방지하고자 if 조건을 걸어서 본인의 게시글만 수정페이지로 넘어올 수 있도록 수정하였다.
+        // 어드민은 모든 게시글에 대한 CRUD 권한을 가지므로, or 조건으로 권한체크 조건을 같이 걸어두었다.
+        if(loginMember.getMemberId() == item.getWriterId() || loginMember.getRole().equals("ADMIN")) {
+            model.addAttribute("form", new ItemUpdateForm(item.getItemId(), item.getTitle(), item.getContent()));
+            model.addAttribute("member", loginMember);
+            model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
+            return "editForm"; //editForm 에서 "수정완료" 버튼을 누르면 아래의 컨트롤러의 url 로 이동한다.
+        }else
+            return "redirect:/forum/freeBoard/viewForm/{itemId}";
 
-        return "editForm"; //editForm 에서 "수정완료" 버튼을 누르면 아래의 url 로 이동한다.
     }
 
     @PostMapping("/forum/freeBoard/editForm/{itemId}") //게시글이 수정되면, 수정된 게시글 상세보기 페이지로 이동
@@ -189,11 +194,16 @@ public class BoardController {
     }
 
     @GetMapping("/forum/freeBoard/viewForm/delete/{itemId}") // 게시글 상세보기 페이지의 "게시글 삭제" 버튼을 누르면 이 링크로 요청이 온다.
-    public String removeItem(@PathVariable Long itemId)
+    public String removeItem(@PathVariable Long itemId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)LoginMember loginMember)
     {
-        itemService.deleteItem(itemId);
-
-        return "redirect:/forum/freeBoard";
+        // 본인 이외 남이 작성한 게시글을 삭제할 수 있는 현상이 있는데 이는 세션에 있는 회원의 정보와 게시글정보의 일치점을 찾는 체크로직이 없어서이다. 체크 로직을 넣겠다.
+        // 본인이 작성한 게시글만 삭제가 가능하며, 어드민은 모든 게시글에대해 CRUD 권한을 가지므로 or 조건으로 권한체크 조건을 같이 걸어두었다.
+        Item item = itemService.findById(itemId);
+        if(loginMember.getMemberId() == item.getWriterId() || loginMember.getRole().equals("ADMIN")) {
+            itemService.deleteItem(itemId);
+            return "redirect:/forum/freeBoard";
+        }else
+            return "redirect:/forum/freeBoard/viewForm/{itemId}";
     }
 
     @GetMapping("/forum/freeBoard/search")

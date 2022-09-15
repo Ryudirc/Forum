@@ -55,7 +55,7 @@ public class CartController {
         //memberId 를 파라미터로 받는데 session 에서 멤버객체를 가져오는 이유는, 장바구니에 접속하고자 하는 멤버의 id와 현재 세션에 있는 멤버의 id가 일치하는지 보기 위함이다.
         // 파라미터의 memberId 와 세션에 있는 memberId 가 서로 다르면 장바구니를 보여줄수 없다.
 
-        if(member.getMemberId() == memberId) {
+        if(member.getMemberId().equals(memberId)) {
 
             List<Cart> cartList;
             List<CartInfo> cartInfoList;
@@ -77,8 +77,8 @@ public class CartController {
             Boolean isMoreThanStock = stockCheckService.isMoreThanStock(cartInfoList);
             Boolean isEmptyCart = stockCheckService.isEmptyCart(cartInfoList);
 
-            System.out.println("isSoldOut 값은 = " + isSoldOut);
-            System.out.println("isMoreThanStock 값은 = " + isMoreThanStock);
+            /*System.out.println("isSoldOut 값은 = " + isSoldOut);
+            System.out.println("isMoreThanStock 값은 = " + isMoreThanStock);*/
 
             model.addAttribute("member", memberRepository.findById(memberId));
             model.addAttribute("categoryType", CategoryType.CATEGORY_TYPE);
@@ -97,16 +97,18 @@ public class CartController {
     @PostMapping("/bgshop/sendCart/{memberId}")
     public String sendCartToOrder(@PathVariable Long memberId,@SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false) LoginMember member)
     {
-        List<CartInfo> cartInfoList = cartConvert.CartConvertToCartInfo(cartService.findProdByMemberId(memberId));
-        Boolean isSoldOut = stockCheckService.isSoldOut(cartInfoList);
-        Boolean isMoreThanStock = stockCheckService.isMoreThanStock(cartInfoList);
-        Boolean emptyCart = stockCheckService.isEmptyCart(cartInfoList);
-        if(isSoldOut || isMoreThanStock || emptyCart) {
-            return "redirect:/bgshop/prodCart/{memberId}";
-        }
+        if(member.getMemberId().equals(memberId)) {
 
-
-        return "redirect:/bgshop/order/{memberId}";
+            List<CartInfo> cartInfoList = cartConvert.CartConvertToCartInfo(cartService.findProdByMemberId(memberId));
+            Boolean isSoldOut = stockCheckService.isSoldOut(cartInfoList);
+            Boolean isMoreThanStock = stockCheckService.isMoreThanStock(cartInfoList);
+            Boolean emptyCart = stockCheckService.isEmptyCart(cartInfoList);
+            if (isSoldOut || isMoreThanStock || emptyCart) {
+                return "redirect:/bgshop/prodCart/{memberId}";
+            }
+            return "redirect:/bgshop/order/{memberId}";
+        }else
+            return "redirect:/";
     }
 
     //장바구니에서 수량업데이트 시 동작하는 컨트롤러
@@ -121,12 +123,16 @@ public class CartController {
 
     //장바구니에서 상품 삭제 시 동작하는 컨트롤러
     @GetMapping("/bgshop/prodCart/deleteProd/{memberId}/{prodId}")
-    public String deleteProd(@PathVariable Long memberId, @PathVariable Long prodId)
+    public String deleteProd(@PathVariable Long memberId, @PathVariable Long prodId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)LoginMember member)
     {
-        cartService.deleteProd(prodId,memberId);
-        //memberId 와 prodId 값을 통해 cart 데이터베이스에서 상품을 찾아내 삭제한다.
+        //상품번호와 회원고유번호(memId)만 알면 회원이 다른 회원의 장바구니에 있는 상품을 삭제할 수있다. 이 점을 수정하기위해 장바구니에 있는 상품 삭제 전 세션에 있는 회원데이터와 비교를 통해 값을 지울 수 있도록 수정했다.
 
-        return "redirect:/bgshop/prodCart/{memberId}";
+        if(member.getMemberId().equals(memberId)) {
+            cartService.deleteProd(prodId, memberId);
+            //memberId 와 prodId 값을 통해 cart 데이터베이스에서 상품을 찾아내 삭제한다.
+            return "redirect:/bgshop/prodCart/{memberId}";
+        }else
+            return "redirect:/";
     }
 
 

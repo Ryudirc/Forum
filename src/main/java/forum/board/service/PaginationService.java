@@ -14,6 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaginationService {
 
+    //btnNum = 버튼번호로써 현재 페이지 번호를 말한다. 페이지 번호는 1 ~ 5 / 6 ~ 10 / 11 ~ 15 ... 이다.
+    //pageSize = 한 페이지당 노출되어야 하는 게시글의 수를 말한다. 나는 15개로 계획했다.
+    //btnCnt = 한 블럭에 몇개의 버튼을 보여줄지 갯수를 나타낼 변수다. 나는 한 블럭당 5개의 번호(1~5) 단위로 보여주기위해 5로 계획했다.
+    //start = DB 에서 게시글을 조회해 올때 몇번부터 가져올지를 정하는 변수다. btnNum에 따라 다르게 가져오도록 설계했다.
+    //prevBlock, nowBlock, nextBlock = 현재 블럭과 이전,다음 블럭을 정해준다. 이는 btnNum 과 btnCnt 에 따라 변하도록 설계했다.
+    // startPage, endPage = 각 블럭의 시작페이지와 끝페이지를 정의하는 변수다. 1블럭에서 startPage는 1이고 endPage는 5 이다. 2블럭에서 startPage는 6이고, endPage는 10이다.
+
 
     private final MybatisPaginationRepository paginationRepository;
     private final ItemService itemService;
@@ -37,7 +44,7 @@ public class PaginationService {
         if(btnNum == 1) {
             start = 0;
         }else{
-            start = (int)btnNum * 15;
+            start = (int)btnNum * pageSize;
         }
             List<Item> items = BtnPerPageSize(start, pageSize);
 
@@ -112,10 +119,10 @@ public class PaginationService {
             nextBlock = itemsAll.size()/15;
         }
         // 시작 페이지
-        int startPage = (int)((nowBlock - 1) * btnCnt + 1);
-
+        int startPage = (int)((nowBlock * btnCnt) - 4);
         // 끝 페이지
-        int endPage = (int)(startPage + btnCnt - 1);
+        int endPage = (int)(nowBlock * btnCnt);
+
         if(endPage > (itemsAll.size()/15))
         {
             endPage = itemsAll.size()/15;

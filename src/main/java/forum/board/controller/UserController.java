@@ -64,8 +64,12 @@ public class UserController {
     public String getUserMyPage(@PathVariable String userName, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) LoginMember member, Model model)
     {
         if(member.getMemberName().equals(userName)) {
-            model.addAttribute("mem", memberRepository.findById(member.getMemberId()));
-            return "shop/userMyPage";
+            if(member.getRole().equals("USER")) {
+                model.addAttribute("mem", memberRepository.findById(member.getMemberId()));
+                return "shop/userMyPage";
+            }else if(member.getRole().equals("ADMIN")){
+                return "redirect:/profile/admin";
+            }
         }
         return "redirect:/";
     }
@@ -77,7 +81,6 @@ public class UserController {
     {
         int seq=0;
         if(member.getMemberId() == memberId) {
-
           List<OrderHistory> orderHistoryList = orderService.getOrderHistory(member.getMemberId());
               for (OrderHistory orderHistory : orderHistoryList) {
                   orderHistory.setModalSequence(++seq);
@@ -94,6 +97,10 @@ public class UserController {
     @GetMapping("profile/myPage/userConfirm/{userName}")
     public String getUserConfirmPage(@PathVariable String userName, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) LoginMember member, Model model)
     {
+        if(member.getRole().equals("ADMIN")){
+            return "redirect:/profile/admin";
+        }
+
         if(member.getMemberName().equals(userName)) {
             model.addAttribute("memberId",member.getMemberId());
             model.addAttribute("memberName",member.getMemberName());
@@ -122,6 +129,10 @@ public class UserController {
     @GetMapping("profile/myPage/userInfo/{userName}")
     public String getUserInfoPage(@PathVariable String userName, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) LoginMember member, Model model)
     {
+        if(member.getRole().equals("ADMIN")){
+            return "redirect:/profile/admin";
+        }
+
         if(member.getMemberName().equals(userName)) {
 
             model.addAttribute("memberInfo",memberRepository.findById(member.getMemberId()));
@@ -160,6 +171,10 @@ public class UserController {
     @GetMapping("profile/myPage/pay/{userName}")
     public String getPaymentPointsPage(@PathVariable String userName, @SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false) LoginMember member, Model model)
     {
+        if(member.getRole().equals("ADMIN")) {
+            return "redirect:/profile/admin";
+        }
+
         Member mem = memberRepository.findById(member.getMemberId());
         model.addAttribute("member",mem);
 
@@ -172,6 +187,7 @@ public class UserController {
     public void paymentsProcess(@PathVariable String userName, @ModelAttribute PayForm payForm, @SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false) LoginMember member)
     {
         if(userName.equals(member.getMemberName())) {
+           // System.out.println("payForm = " + payForm);
             pointsService.addPoints(payForm, member.getMemberId());
         }
     }

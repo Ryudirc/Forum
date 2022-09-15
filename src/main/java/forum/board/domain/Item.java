@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 매핑용 클래스
+ * 게시글 매핑용 클래스
  */
 
 @Getter @Setter
@@ -19,7 +19,6 @@ public class Item {
     private String writer;
     private List<UploadFile> attachFiles;
     private int viewCnt;
-    //private int goodCnt;
     private Long writerId;
 
 

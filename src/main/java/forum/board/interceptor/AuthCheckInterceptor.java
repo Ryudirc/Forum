@@ -17,7 +17,6 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
     //권한 관리 인터셉터
     // 사용자의 Role 이 USER 이거나, 아무것도 없는 경우(whiteSpace,null,"") 어드민페이지로의 접근을 제한한다.
 
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 

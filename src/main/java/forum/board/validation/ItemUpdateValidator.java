@@ -24,6 +24,5 @@ public class ItemUpdateValidator implements Validator {
             errors.rejectValue("content","duplicate");
         }
 
-
     }
 }

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class ItemSaveValidator implements Validator {
     @Override
@@ -17,6 +20,7 @@ public class ItemSaveValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         ItemSaveForm itemSaveForm = (ItemSaveForm) target;
+
 
         if(itemSaveForm.getContent().equals("<p><br></p>"))
         {
