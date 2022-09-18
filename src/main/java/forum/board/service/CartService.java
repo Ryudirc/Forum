@@ -56,7 +56,15 @@ public class CartService {
    public void deleteMyCartAll(Long memberId) { cartRepository.deleteCartAll(memberId);}
 
 
+    public void plusProdQuantity(Long memberId,Long prodId,CartSaveForm form)
+    {
+        cartRepository.updatePlusQuantity(prodId,memberId,form.getProdCnt());
+    }
 
+    public Cart findById(Long prodId,Long memberId)
+    {
+        return cartRepository.findByProdId(prodId, memberId);
+    }
 
 
 

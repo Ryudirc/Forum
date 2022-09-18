@@ -97,7 +97,7 @@ public class ShopController {
     }
 
     // 상품상세 화면 처리(권한별 처리)
-    @GetMapping("/bgshop/prodDetail/{prodId}")
+    @GetMapping(value = {"/bgshop/prodDetail/{prodId}","/prodDetail/sendProd/{prodId}"})
     public String getProdDetail(@PathVariable Long prodId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) LoginMember member, Model model)
     {
         Products findProd = productsService.findProdById(prodId);
@@ -121,13 +121,8 @@ public class ShopController {
 
         if(member != null)
         {
-            prodCnt = (int)cartService.getCartCnt(member.getMemberId());
-            List<Cart> cartList = cartService.findProdByMemberId(member.getMemberId());
-            for (Cart cart : cartList) {
-                if(cart.getProdId() == findProd.getProdId()){
-                    model.addAttribute("message","이미 장바구니에 존재하는 상품입니다.");
-                }
-            }
+            prodCnt = cartService.getCartCnt(member.getMemberId());
+
             model.addAttribute("member",memberRepository.findById(member.getMemberId()));
             model.addAttribute("product",findProd);
             model.addAttribute("relatedProdList",relatedProdList);

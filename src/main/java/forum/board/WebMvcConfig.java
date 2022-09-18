@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
-                .addPathPatterns("/forum/freeBoard/**","/profile/**","/bgshop/order/**","/bgshop/prodCart/**")
+                .addPathPatterns("/forum/freeBoard/**","/profile/**","/bgshop/order/**","/bgshop/prodCart/**","/prodDetail/sendProd/**")
                 .excludePathPatterns("/freeboard/**","/login/**","/signup/**","/error","/","/bgshop/login","/bgshop/signup");
             //excludePathPatterns 에 추가해야하는 URI 는 "상품상세" 페이지 정도.
 

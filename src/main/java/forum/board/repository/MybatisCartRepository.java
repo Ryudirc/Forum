@@ -24,6 +24,16 @@ public class MybatisCartRepository {
         return cartMapper.findByMemberId(memberId);
    }
 
+   public Cart findByProdId(Long memberId,Long prodId)
+   {
+       return cartMapper.findByProdId(memberId,prodId);
+   }
+
+   public void updatePlusQuantity(Long prodId,Long memberId,int plusQuantity)
+   {
+       cartMapper.updatePlusQuantity(prodId, memberId, plusQuantity);
+   }
+
    public void updateCartProd(Long prodId,Long memberId,int updateQuantity)
    {
         cartMapper.updateCartProd(prodId,memberId,updateQuantity);

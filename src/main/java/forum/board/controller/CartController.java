@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -35,18 +36,34 @@ public class CartController {
     private final MybatisMemberRepository memberRepository;
 
 
+
+
     //장바구니 담기 선택시 동작하는 컨트롤러
-    @PostMapping("/prodDetail/sendProd/{prodId}/{memberId}")
-    public String sendProdToCart(@PathVariable Long prodId,@PathVariable Long memberId,@ModelAttribute CartSaveForm cartSaveForm)
+    @PostMapping("/prodDetail/sendProd/{prodId}")
+    public String sendProdToCart(@PathVariable Long prodId,@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false)LoginMember member,@ModelAttribute CartSaveForm cartSaveForm)
     {
 
-        if(memberId != null) {
-            cartService.saveCartProd(prodId, memberId, cartSaveForm);
-            return "redirect:/bgshop/prodDetail/{prodId}";
+        if(member.getMemberId() != null) {
+
+            Cart cart = cartService.findById(prodId, member.getMemberId());
+            System.out.println("prodId = " + prodId);
+            System.out.println("member.getMemberId() = " + member.getMemberId());
+            System.out.println("cart = " + cart);
+
+
+
+            if(cart != null && cart.getProdId().equals(prodId)){
+                cartService.plusProdQuantity(member.getMemberId(),prodId,cartSaveForm);
+            }else {
+                cartService.saveCartProd(prodId, member.getMemberId(), cartSaveForm);
             }
+            return "redirect:/bgshop/prodDetail/{prodId}";
+        }
 
         return "redirect:/";
     }
+
+
 
     //장바구니 페이지 동작 컨트롤러
     @GetMapping("/bgshop/prodCart/{memberId}")

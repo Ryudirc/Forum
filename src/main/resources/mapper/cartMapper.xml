@@ -27,5 +27,12 @@
     delete from cart where member_id=#{memberId}
 </delete>
 
+<select id="findByProdId" resultType="Cart">
+    select * from cart where prod_id=#{prodId} and member_id=#{memberId}
+</select>
+
+<update id="updatePlusQuantity">
+    update cart set prod_cnt=prod_cnt+#{plusQuantity} where prod_id=#{prodId} and member_id=#{memberId}
+</update>
 
 </mapper>

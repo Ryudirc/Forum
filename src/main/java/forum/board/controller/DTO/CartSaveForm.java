@@ -10,4 +10,12 @@ public class CartSaveForm {
     private int prodPrice;
     private int prodCnt;
 
+    @Override
+    public String toString() {
+        return "CartSaveForm{" +
+                "prodName='" + prodName + '\'' +
+                ", prodPrice=" + prodPrice +
+                ", prodCnt=" + prodCnt +
+                '}';
+    }
 }

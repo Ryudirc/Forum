@@ -8,7 +8,7 @@
 
 
     <insert id="saveOrderList" useGeneratedKeys="true" keyProperty="listId">
-        insert into order_list(order_id,prod_name,prod_cnt,prod_price) values <foreach collection="list" item="OrderList" separator=",">
+        insert into order_list(order_id,prod_name,prod_cnt,prod_price) values <foreach collection="list" item="orderList" separator=",">
         (#{orderList.orderId},#{orderList.prodName},#{orderList.prodCnt},#{orderList.prodPrice})
     </foreach>
     </insert>
@@ -21,8 +21,6 @@
     <select id="getOrderHistoryByMemberId" resultType="OrderHistory">
         select order_id,member_real_name,member_phone,order_status from orders where member_id=#{memberId}
     </select>
-
-
 
 
 </mapper>
